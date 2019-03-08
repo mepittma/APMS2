@@ -1,0 +1,7 @@
+RawFile	IsotopeLabelType	Condition	BioReplicate	Run	SAINT
+qx007869	L	TBX5	TBX5-1	7	T
+qx007871	L	TBX5	TBX5-2	8	T
+qx007873	L	TBX5	TBX5-3	9	T
+qx007885	L	control	control-1	15	C
+qx008459	L	control	control-2	17	C
+qx008463	L	control	control-3	18	C

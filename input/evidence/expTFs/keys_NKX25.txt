@@ -1,0 +1,7 @@
+RawFile	IsotopeLabelType	Condition	BioReplicate	Run	SAINT
+qx007863	L	NKX25	NKX25-1	4	T
+qx007865	L	NKX25	NKX25-2	5	T
+qx007867	L	NKX25	NKX25-3	6	T
+qx007881	L	control	control-1	13	C
+qx007883	L	control	control-2	14	C
+qx008455	L	control	control-3	16	C

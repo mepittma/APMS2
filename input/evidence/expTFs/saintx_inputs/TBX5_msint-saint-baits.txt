@@ -1,0 +1,6 @@
+TBX5-1	TBX5	T
+TBX5-2	TBX5	T
+TBX5-3	TBX5	T
+control-1	control	C
+control-2	control	C
+control-3	control	C

@@ -1,0 +1,6 @@
+NKX25-1	NKX25	T
+NKX25-2	NKX25	T
+NKX25-3	NKX25	T
+control-1	control	C
+control-2	control	C
+control-3	control	C

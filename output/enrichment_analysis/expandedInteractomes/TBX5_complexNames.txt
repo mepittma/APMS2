@@ -1,0 +1,7 @@
+Complex.id	Complex.name
+662	Hoxa9-PBX2-Meis1 complex
+1186	ESCRT-III complex
+5709	ArgBP2a-CBL-PTK2B complex
+2719	Casein kinase II-HMG1 complex
+2730	Set1B complex
+2731	Set1A complex

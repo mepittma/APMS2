@@ -1,0 +1,12 @@
+Binaries are available for Linux and Windows in the "Precompiled_binaries" directory.
+
+
+	COMPILING
+
+g++ and gcc version 4.4 or above will be required.
+
+If you are on CentOS 5 or RHEL 5, use the script "CentOS5_RHEL5_build_script.sh" to compile.
+
+On other distributions, use "make -j" to compile.
+
+The binaries are located in the bin/ directory after the compilation finishes.

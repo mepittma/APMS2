@@ -1,0 +1,10 @@
+prefix=/Users/student/Documents/PollardLab/APMS/code/SAINTexpress_v3.6.1__2015-05-03/nlopt
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: NLopt
+Description: nonlinear optimization libary
+Version: 2.3
+Libs: -L${libdir} -lnlopt -lm
+Cflags: -I${includedir}

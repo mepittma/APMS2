@@ -1,0 +1,7 @@
+GATA4-1	GATA4	T
+GATA4-2	GATA4	T
+GATA4-3	GATA4	T
+control-1	control	C
+control-2	control	C
+control-3	control	C
+control-4	control	C

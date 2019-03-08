@@ -1,0 +1,9 @@
+Complex.id	Complex.name
+430	18S U11/U12 snRNP
+563	F1F0-ATP synthase (EC 3.6.3.14), mitochondrial
+835	6S methyltransferase and RG-containing Sm proteins complex
+1181	C complex spliceosome
+2755	17S U2 snRNP
+2757	SMN complex, U7 snRNA specific
+3118	SMN1-SIP1-SNRP complex
+3135	TLE1 corepressor complex (MASH1 promoter-corepressor complex)
