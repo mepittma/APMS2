@@ -1,0 +1,547 @@
+Complex.id	Complex.name
+4	Multisubunit ACTR coactivator complex
+15	NCOR complex
+27	Arp2/3 protein complex
+41	Mi-2/NuRD-MTA2 complex
+49	DNMT3B complex
+54	SIN3 complex
+58	SMRT complex
+61	Mi2/NuRD complex
+62	MeCP1 complex
+66	TRAP complex
+71	MRN complex (MRE11-RAD50-NBS1 complex)
+72	R/M complex (RAD50-MRE11 complex)
+73	MRN complex (MRE11-RAD50-NBN complex)
+75	TSC1-TSC2 complex
+86	NUMAC complex (nucleosomal methylation activator complex)
+87	Nup 107-160 subcomplex
+94	ATP-utilizing chromatin assembly and remodeling factor (hACF) complex
+95	Ku antigen-NARG1 complex
+98	p300-MDM2-p53 protein complex
+100	hNURF complex
+103	RNA polymerase II holoenzyme complex
+104	RNA polymerase II core complex
+105	Polycomb repressive complex 2 (PRC 2)
+115	Polycomb repressive complex 1 (PRC1, hPRC-H)
+116	Polycomb repressive complex 1 (PRC1, hPRC-H)
+123	Rnase/Mrp complex
+149	PBAF complex (Polybromo- and BAF containing complex)
+159	Condensin I-PARP-1-XRCC1 complex
+173	MRN complex (MRE11-RAD50-NBN complex)
+177	OGT-TRAK1-TRAK2 complex
+189	BAF complex
+202	BRCA1-RAD50-MRE11-NBS1 complex
+205	Ubiquitin E3 ligase (VHL, TCEB1, TCEB2, CUL2, RBX1)
+207	Ubiquitin E3 ligase (ASB2, TCEB1, TCEB2, CUL5, RNF7)
+208	Ubiquitin E3 ligase (ASB1, TCEB1, TCEB2, CUL5, RNF7)
+209	Ubiquitin E3 ligase (ASB6, TCEB1, TCEB2, CUL5, RNF7)
+210	Ubiquitin E3 ligase (ASB7, TCEB1, TCEB2, CUL5, RNF7)
+211	Ubiquitin E3 ligase (ASB12, TCEB1, TCEB2, CUL5, RNF7)
+212	DNA ligase III-XRCC1 complex
+214	Ubiquitin E3 ligase (WSB1, TCEB1, TCEB2, CUL5, RBX1)
+220	ARF-Mule complex
+223	CAND1-CUL4A-RBX1 complex
+234	HuCHRAC complex
+236	WICH complex
+238	SWI-SNF chromatin remodeling-related-BRCA1 complex
+243	RalBP1-CDC2-CCNB1 complex
+263	R/M complex (RAD50-MRE11 complex)
+264	R/M complex (RAD50-MRE11 complex)
+280	HMGB1-HMGB2-HSC70-ERP60-GAPDH complex
+282	SNF2h-cohesin-NuRD complex
+283	Sin3 complex
+286	PCNA-MSH2-MSH6 complex
+289	PCNA-MSH2-MSH6 complex
+290	MSH2-MLH1-PMS2-PCNA DNA-repair initiation complex
+291	MSH2-MLH1-PMS2 DNA-repair initiation complex
+297	PCNA-DNA polymerase delta complex
+298	VEGF transcriptional complex
+300	PC2 complex
+301	SMCC complex
+302	INO80 chromatin remodeling complex
+304	SRCAP-associated chromatin remodeling complex
+305	40S ribosomal subunit, cytoplasmic
+306	Ribosome, cytoplasmic
+308	60S ribosomal subunit, cytoplasmic
+310	Cell cycle kinase complex CDC2
+322	DNA-PK-Ku complex
+328	Ku antigen complex
+331	MRN complex (MRE11-RAD50-NBN complex)
+335	p54(nrb)-PSF-matrin3 complex
+338	40S ribosomal subunit, cytoplasmic
+351	Spliceosome
+355	DNA-PK-Ku antigen complex
+356	DNA-PK-Ku antigen complex
+357	DNA-PK-Ku antigen complex
+360	Artemis-DNA-PK complex
+361	Artemis-DNA-PK complex
+362	DNA ligase III-XRCC1-PNK-DNA-pol III multiprotein complex
+363	DNA ligase III-XRCC1 complex
+365	DNA ligase III-XRCC1 complex
+368	ERCC1-ERCC4-MSH2 complex
+369	MSH2-MSH6-PMS2-MLH1 complex
+370	MSH2-MSH6-PMS1-MLH1 complex
+374	MSH2-MSH6 complex
+375	MSH2-MSH3 complex
+376	PCNA-MutS-alpha-MutL-alpha-DNA complex
+377	PCNA-MutS-alpha-DNA initial complex
+378	MutS-beta complex
+391	Ubiquitin E3 ligase (DDB1, CUL4A, RBX1)
+425	MSH4-MSH5-GPS2 complex
+430	18S U11/U12 snRNP
+431	MSH2-MSH6-PMS2-MLH1 complex
+433	BASC complex (BRCA1-associated genome surveillance complex)
+434	BASC (Ab 80) complex (BRCA1-associated genome surveillance complex)
+436	BASC (Ab C-20) complex (BRCA1-associated genome surveillance complex)
+438	GCN5-TRRAP histone acetyltransferase complex
+445	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+455	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+456	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+459	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+462	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+470	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+471	PCAF complex
+475	STAGA complex (SPT3-TAF9-GCN5 acetyltransferase complex)
+476	STAGA complex (SPT3-TAF9-GCN5 acetyltransferase complex)
+477	PCAF complex
+509	TFIID complex
+513	TFTC complex (TATA-binding protein-free TAF-II-containing complex)
+522	Polycystin-1-E-cadherin-beta-catenin-Flotillin-2 complex
+525	TIP60 histone acetylase complex
+528	NuA4/Tip60 HAT complex
+529	NuA4/Tip60 HAT complex
+535	TRAP complex
+547	SMCC complex
+551	TDT-TDIF2-core-histone complex
+554	PBAF complex (Polybromo- and BAF containing complex)
+555	BAF complex
+556	PBAF complex (Polybromo- and BAF containing complex)
+564	BAF complex
+565	PBAF complex (Polybromo- and BAF containing complex)
+566	BAF complex
+570	p300-CBP-p270-SWI/SNF complex
+571	p300-CBP-p270 complex
+585	Mi2/NuRD-BCL6-MTA3 complex
+587	NuRD.1 complex
+591	SAP complex (Sin3-associated protein complex)
+592	SAP complex (Sin3-associated protein complex)
+596	SIN3-HDAC-SAP30-ARID4 complex
+614	NRD complex (Nucleosome remodeling and deacetylation complex)
+618	MRN complex (MRE11-RAD50-NBN complex)
+619	MRE11A-RAD50-NBN-TRF2 complex
+620	CoREST-HDAC complex
+622	Ubiquitin E3 ligase (VHL, TCEB1, TCEB2, CUL2)
+624	LSD1-CoREST complex
+626	LSD1 complex
+627	MRN-TRRAP complex (MRE11A-RAD50-NBN-TRRAP complex)
+632	Anti-HDAC2 complex
+633	anti-BHC110 complex
+634	XFIM complex
+636	BHC complex
+642	CtBP complex
+643	CtBP core complex
+646	HDAC1-associated protein complex
+648	HDAC1-associated core complex cI
+649	HDAC1-associated core complex cII
+650	HDAC2-asscociated core complex
+659	MeCP1 complex
+660	TIM (TIMM23, TIMM50) complex, mitochondrial
+685	MeCP1 complex
+691	SIN3-SAP25 complex
+695	SIN3-HDAC-SAP30-ARID4 complex
+696	BRMS1-SIN3-HDAC complex
+698	SIN3-HDAC-SAP30-ARID4 complex
+710	Brg1-associated complex I
+711	Brm-associated complex
+713	BRG1-SIN3A complex
+714	BRM-SIN3A complex
+720	PU.1-SIN3A-HDAC complex
+725	P2X7 receptor signalling complex
+726	DDB2 complex
+727	CSA complex
+728	CSA-POLIIa complex
+732	SIN3 complex
+738	SIN3-ING1b complex I
+739	SIN3-ING1b complex II
+740	Exon junction complex, EIF4A3-MLN51-MAGOH-Y14 (RNA-protein complex)
+741	NCOR-HDAC3 complex
+743	SIN3-SAP25 complex
+744	Exon junction complex (EIF4A3-MLN51-MAGOH-Y14)
+745	NCOR-SIN3-RPD3 complex
+747	NCOR-SIN3-HDAC1 complex
+749	MeCP2-SIN3A-HDAC complex
+752	SMRT core complex
+754	Exon junction complex (EIF4A3-MLN51-UPF3B-MAGOH-Y14)
+755	Exon junction complex (F4A3-MLN51-UPF3B-MAGOH-Y14-PYM)
+760	Apoptosis- and splicing-associated protein complex (ASAP-L), SAP18-RNPS1-Acinus-L
+761	Apoptosis- and splicing-associated protein complex (ASAP-S), SAP18-RNPS1-Acinus-S
+763	Y14-Magoh complex
+769	Exon junction complex (EIF4A3-MLN51-MAGOH-Y14),  RNA-protein complex
+770	TREX complex
+772	eIF4AIII-Btz complex
+773	Y14-Magoh complex
+774	THO complex
+777	Exon junction complex
+778	LARC complex (LCR-associated remodeling complex)
+781	URI complex (Unconventional prefoldin RPB5 Interactor)
+785	Exon junction complex
+787	NuA4/Tip60-HAT complex B
+798	NuA4/Tip60-HAT complex A
+799	DMAP1-associated complex
+803	BRG1-SIN3A-HDAC containing SWI/SNF remodeling complex I
+806	BRM-SIN3A-HDAC complex
+807	BRG1-associated complex
+808	BRM-associated complex
+810	FCP1-associated protein complex
+811	FCP1-associated protein complex
+814	Postsplicing complex
+819	20S methylosome-SmD complex
+833	6S methyltransferase complex
+834	20S methylosome and RG-containing Sm protein complex
+835	6S methyltransferase and RG-containing Sm proteins complex
+839	LIN9-BMYB complex
+846	RICH1/AMOT polarity complex, Flag-Rich1 precipitated
+860	DNMT1-G9a-PCNA complex
+862	DNMT1-G9a complex
+871	BRAF53-BRCA2 complex
+886	MTA1 complex
+888	MTA2 complex
+889	MTA1-HDAC core complex
+917	CERF complex (CECR2-containing remodeling factor complex)
+919	hNURF complex
+921	Remodeling and spacing factor (RSF) complex
+923	SNF2L-RSF1 complex
+924	Toposome
+925	WCRF complex
+929	CEN complex
+934	FACT-NEK9 complex
+936	FACT complex
+938	FACT complex, UV-activated
+964	BRCA1-RAD50-MRE11-NBS1 complex
+972	MRN complex (MRE11-RAD50-NBS1 complex)
+974	EED-EZH2 complex
+995	Polycomb repressive complex 3 (PRC3)
+996	Polycomb repressive complex 2 (PRC2)
+999	p23 protein complex
+1004	RC complex during S-phase of cell cycle
+1005	RC complex during G2/M-phase of cell cycle
+1041	Alpha-dystrobrevin-ZO-1-actin complex
+1055	ZNF198-PML complex
+1056	ZNF198-SUMO1 complex
+1068	12S U11 snRNP
+1078	MSH2-MSH6 complex
+1081	MRN complex (MRE11-RAD50-NBN complex)
+1085	DNA repair complex NEIL2-PNK-Pol(beta)-LigIII(alpha)-XRCC1
+1086	DNA repair complex NEIL1-PNK-Pol(beta)-LigIII(alpha)-XRCC1
+1092	PCNA-KU antigen complex
+1094	Frataxin complex
+1098	DNA synthesome complex (13 subunits)
+1099	DNA synthesome complex (17 subunits)
+1101	TFIIIC containing complex TFIIIC2
+1105	TFIIIC containing complex
+1106	TFIIIC containing-TOP1-SUB1 complex
+1107	DNA synthesome core complex
+1108	DNA synthesome complex (15 subunits)
+1111	DNA synthesome complex (17 subunits)
+1113	5S-DNA-TFIIIA-TFIIIC2 subcomplex
+1114	5S-DNA-TFIIIA-TFIIIC2-TFIIIB subcomplex
+1133	ATR-HDAC2 complex
+1134	ATR-HDAC2-CHD4 complex
+1141	CF IIAm complex (Cleavage factor IIAm complex)
+1142	SMN complex
+1143	SMN complex
+1144	Cleavage and polyadenylation factor (CPSF)
+1145	Mammalian cleavage factor I (CF Im)
+1146	Cleavage stimulation factor
+1147	Polyadenylation complex (CSTF1, CSTF2, CSTF3, SYMPK CPSF1, CPSF2, CPSF3)
+1148	snRNP-free U1A (SF-A) complex
+1149	Histone H3.1 complex
+1150	Histone H3.3 complex
+1153	Integrator complex
+1154	DSS1 complex
+1155	Integrator-RNAPII complex
+1158	p33ING1b-p300 complex
+1159	p33ING1b-HDAC1 complex
+1160	ING1-p300-PCNA complex
+1162	Ubiquitin E3 ligase (DDB1, DDB2, CUL4A, CUL4B, RBX1)
+1166	p400-associated complex
+1170	cMYC-ATPase-helicase complex
+1171	c-MYC-ATPase-helicase complex
+1173	TIP49-TIP48-BAF53 complex
+1175	TRRAP-BAF53-HAT complex
+1177	Polycomb repressive complex 4 (PRC4)
+1178	BCOR complex
+1181	C complex spliceosome
+1182	CDC5L core complex
+1183	CDC5L complex
+1186	ESCRT-III complex
+1188	SMRT core complex
+1189	DNA double-strand break end-joining complex
+1193	Rap1 complex
+1194	E2F-6 complex
+1195	Exon junction complex (mRNA splicing-dependent)
+1204	Rap1 complex
+1214	Ubiquitin E3 ligase (DET1, DDB1, CUL4A, RBX1, COP1)
+1220	TRF2-Ku complex
+1223	H2AX complex, isolated from cells without IR exposure
+1225	Ubiquitin E3 ligase (H2AFY, SPOP, CUL3)
+1226	H2AX complex I
+1227	H2AX complex II
+1230	WINAC complex
+1233	CoREST-HDAC2 complex
+1237	BAF complex
+1238	PBAF complex (Polybromo- and BAF containing complex)
+1239	EBAFb complex
+1248	Apoptosome
+1251	BAF complex
+1252	EBAFa complex
+1254	Menin-associated histone methyltransferase complex
+1256	MLL-HCF complex
+1257	ALL-1 supercomplex
+1259	Chromatin assembly complex (CAF-1 complex)
+1261	SRm160/300 complex
+1287	HNRPF-HNRPH1 complex
+1288	DCS complex (PTBP1, PTBP2, HNRPH1, HNRPF)
+1293	IPO13-RBM8A-MAGOH complex
+1308	PABPC1-HSPA8-HNRPD-EIF4G1 complex
+1332	Large Drosha complex
+1335	SNW1 complex
+1347	NPC subcomplex (NUP98, NUP107, NUP133, NUP160)
+1352	ING4 complex (ING4, MYST2, C1orf149, PHF17)
+1399	WDR5-ASH2L-RBBP5-MLL2 complex
+1400	ASCOM complex
+1401	MOF complex
+1413	NCOR1 complex
+1458	SNF2h-HDAC12 complex
+1462	hPRC1L complex
+1464	Mis12 centromere complex
+1470	pRb2/p130-multimolecular complex (DNMT1, E2F5, SuV39H1, HDAC1, RBL2)
+1471	pRb2/p130-multimolecular complex (RB2, E2F5, HDAC1, SUV39H1, P300)
+1488	DNMT1-RB1-HDAC1-E2F1 complex
+1492	BHC110 complex
+1495	PID complex
+1505	NCOR2 complex
+1521	p300-SMAD1-STAT3 complex
+1557	NMI-POLR1B-RRN3 complex
+1558	POLR1B-RRN3 complex
+1571	Vigilin-DNA-PK-Ku antigen complex
+1728	CTCF-nucleophosmin-PARP-HIS-KPNA-LMNA-TOP complex
+1729	TLE1 corepressor complex (MASH1 promoter-corepressor complex)
+1734	SF3A1-SF3A2-SF3A3 complex
+1737	SF3b complex
+1743	(E.F.G) complex
+1745	SMN complex
+1746	SMN containing complex
+1749	SMN-PolII-RHA complex
+1767	CPSF6-ITCH-NUDT21-POLR2A-UBAP2L complex
+1768	CPSF6-EWSR1-ITCH-NUDT21-POLR2A-UBAP2L complex
+1769	CPSF6-ITCH-NUDT21-POLR2A complex
+5718	eNOS-HSP90-AKT complex, VEGF induced
+1831	PIAS3-SMAD3-P300 complex
+5716	eNOS-HSP90 complex, VEGF induced
+2112	CDC37-HSP90AA1-HSP90AB1-MAP3K11 complex
+2129	DNAJB2-HSPA8-PSMA3 complex
+2145	HSF1-YWHAE complex
+2156	YBX1-AKT1 complex
+2160	AOF2-AR complex
+2171	Ubiquitin E3 ligase (CHEK1, CUL4A)
+2172	Ubiquitin E3 ligase (CDT1, DDB1, CUL4A, RBX1)
+2183	Kaiso-NCOR complex
+2203	BRD4-RFC complex
+2211	BARD1-BRCA1-CSTF complex
+2217	MDC1-MRN-ATM-FANCD2 complex
+2218	MDC1-MRE11-RAD50-NBS1 complex
+2224	MSH2/6-BLM-p53-RAD51 complex
+2226	MutS-alpha-PK-zeta complex
+2233	Replication-coupled CAF-1-MBD1-ETDB1 complex
+2234	Chromatin assembly complex (CAF-1 complex)
+2238	MBD1-MCAF1-SETDB1 complex
+2254	CTGF/Hcs24-actin complex
+2300	Profilin 2 complex
+2599	POLR2A-CCNT1-CDK9-NCL-LEM6-CPSF2 complex
+2600	BRD4 complex
+2601	P-TEFb-BRD4-TRAP220 complex
+2625	CDK8-MED6-PARP1 complex
+2638	HES1 promoter corepressor complex
+2639	HES1 promoter-Notch enhancer complex
+2641	p300/CBP-PCAF-MyoD complex
+2642	SMAD1-P300 complex
+2649	MYC-DNMT3A-ZBTB17 complex
+2650	DNMT3B-DNMT3L complex
+2651	DNMT3L-DNMT3A
+2657	ESR1-CDK7-CCNH-MNAT1-MTA1-HDAC2 complex
+2685	RNA polymerase II (RNAPII)
+2686	BRCA1-core RNA polymerase II complex
+2719	Casein kinase II-HMG1 complex
+2720	Casein kinase II complex
+2721	HCF-1 complex
+2722	Ubiquitin E3 ligase (DDB1, CUL4A, RBX1)
+2723	ATM-NBS1 complex
+2730	Set1B complex
+2731	Set1A complex
+2740	MutS-alpha complex
+2749	SETDB1-containing HMTase complex
+2755	17S U2 snRNP
+2757	SMN complex, U7 snRNA specific
+2759	MBD1-MCAF complex
+2763	MBD1-Suv39h1-HP1 complex
+2766	TERF2-RAP1 complex
+2767	RAD50-MRE11-NBN-p200-p350 complex
+2774	MDC1-H2AFX-TP53BP1 complex
+2775	MDC1-p53BP1-SMC1 complex
+2776	RAD50-BRCA1 complex
+2808	RAD9-RAD1-HUS1-APE1 complex
+2814	BRCA1-HDAC1-HDAC2 complex
+2815	BRCA1-BARD1-BACH1-DNA damage complex II
+2817	BRCA1-BARD1-BACH1-DNA damage complex I
+2825	BRCA1-RNA polymerase II complex
+2829	RSmad complex
+2833	SRm160-SRm300 complex
+2837	Profilin 1 complex
+2847	ING4 complex (ING4, MYST2, C1orf149, PHF15)
+2848	ING4 complex (ING4, MYST2, C1orf149, PHF16)
+2851	ING2 complex
+2852	Brg1-based SWI/SNF chromatin remodeling complex
+2856	NuA4/Tip60 HAT complex
+2857	NuA4/Tip60 HAT complex
+2858	HBO1 complex
+2859	ING5 complex
+2875	BRD4-P-TEFb complex
+2877	BRD4-P-TEFb complex
+2911	SMRT-SKIP-CBF1 complex
+2918	Ku antigen-YY1-alphaMyHC promoter complex
+2921	SHARP-CtBP complex
+2937	PTF1-bHLH complex
+2966	NuMA-LGN-G-alpha-i-1 complex
+3008	60S APC containing complex
+3032	RNA-induced silencing complex, RISC
+3044	SKI-NCOR1-SIN3A-HDAC1 complex
+3048	mSin3A complex
+3053	mSin3A-HDAC1-HDAC2 complex
+3054	MAD1-mSin3A-HDAC2 complex
+3055	Nop56p-associated pre-rRNA complex
+3060	RNA polymerase II complex (RPB1, RAP74, CDK8, CYCC, SRB7, BAF190, BAF47), chromatin structure modifying
+3061	RNA polymerase II complex (CBP, PCAF, RPB1, BAF47, CYCC, CDK8), chromatin structure modifying
+3062	RNA polymerase II complex, incomplete (CBP, RPBI, PCAF, BAF47), chromatin structure modifying
+3063	Brg1-associated complex II
+3064	RNA polymerase II complex, chromatin structure modifying
+3065	RNA polymerase II complex, chromatin structure modifying
+3066	RNA polymerase II complex, chromatin structure modifying
+3067	RNA polymerase II complex, incomplete (CDK8 complex), chromatin structure modifying
+3075	UTX-MLL2/3 complex
+3079	DGCR8-ILF3 complex
+3080	ILF3-XPO5 complex
+3082	DGCR8 multiprotein complex
+3098	TIM50a-SMN1 complex
+3099	TIM50a-coilin complex
+3102	DHX9-ADAR-vigilin-DNA-PK-Ku antigen complex
+3118	SMN1-SIP1-SNRP complex
+3129	STAT6-p100-RHA complex
+3135	TLE1 corepressor complex (MASH1 promoter-corepressor complex)
+3137	MASH1 promoter-coactivator complex
+3142	CAMK2-delta-MASH1 promoter-coactivator complex
+3149	NK-3-Groucho-HIPK2-SIN3A-RbpA48-HDAC1 complex
+3156	CBF1-HDAC1-SMRT complex
+3167	NCOR-SIN3-HDAC-HESX1 complex
+3204	SMAD2-SKI-NCOR complex
+3205	SMAD3-SKI-NCOR complex
+3206	SMAD4-SKI-NCOR complex
+3234	SMAD2-SMAD4-FAST1-TGIF-HDAC1 complex, TGF(beta) induced
+3263	HERP1/HEY2-NCOR-SIN3A complex
+3269	RB1-HDAC1-BRG1 complex
+3618	GammaH2AFX-NDHII-Ku70-DNA complex
+3852	Rb-HDAC1 complex
+3853	Rb-HDAC1 complex
+3917	Ternary complex (GATA4, SRF, MYOCD)
+3961	SMAD3-cSKI-SIN3A-HDAC1 complex
+4081	Ku70/Ku86 complex
+4082	Ku70/Ku86/Werner complex
+4158	HSP90-FKBP38-CAM-Ca(2+) complex
+4216	GR-hnRNP U complex
+5117	pRb2/p130-multimolecular complex (DNMT1, E2F4, SuV39H1, HDAC1, RBL2)
+5118	pRb2/p130-multimolecular complex (RB2, E2F4, HDAC1, SUV39H1, P300)
+5154	CTCF-nucleophosmin complex
+5158	SMARCA2/BRM-BAF57-MECP2 complex
+5176	MGC1-DNA-PKcs-Ku complex
+5179	NCOA6-DNA-PK-Ku-PARP1 complex
+5182	DNA-PK-Ku complex
+5183	DNA-PK-Ku-eIF2-NF90-NF45 complex
+5184	SWI/SNF chromatin-remodeling complex
+5189	YWHAQ-CALM1-CABIN1 complex
+5191	Ezh2 methyltransferase complex, cytosolic
+5195	PTIP-HMT complex
+5197	PTIP-DNA damage response complex
+5199	Kinase maturation complex 1
+5727	TBP-TAF complex
+5212	Kinase maturation complex 2
+5220	CHUK-IQGAP2-AKAP8L-RELA-TNIP2 complex
+5223	Casein kinase II (beta-dimer, alpha'-dimer)
+5224	Casein kinase II (beta-dimer, alpha, alpha')
+5225	Casein kinase II (beta-dimer, alpha-dimer)
+5231	53BP1-containing complex
+5232	TNF-alpha/Nf-kappa B signaling complex (RPL6, RPL30, RPS13, CHUK, DDX3X, NFKB2, NFKBIB, REL, IKBKG, NFKB1, MAP3K8, RELB, GLG1, NFKBIA, RELA, TNIP2,  GTF2I)
+5233	TNF-alpha/NF-kappa B signaling complex 5
+5234	IKBKB-CDC37-KIAA1967-HSP90AB1-HSP90AA1 complex
+5235	WRN-Ku70-Ku80-PARP1 complex
+5243	XRCC1-LIG3-PNK-TDP1 complex
+5251	Ku-ORC complex
+5253	MNK1-eIF4F complex
+5260	TCF4-CTNNB1-SUMO1-EP300-HADAC6 complex
+5261	TCF4-CTNNB1-EP300 complex
+5266	TNF-alpha/NF-kappa B signaling complex 6
+5267	VHL-VDU1-TCEB1-TCEB2 complex
+5268	TNF-alpha/NF-kappa B signaling complex 7
+5269	TNF-alpha/NF-kappa B signaling complex 8
+5270	VHL-TCEB1-TCEB2 complex
+5285	TNF-alpha/NF-kappa B signaling complex 9
+5286	TNF-alpha/NF-kappa B signaling complex 10
+5288	P53-BARD1-Ku70 complex
+5293	ETS2-SMARCA4-INI1 complex
+5360	AGO2-FXR1-TNF(alpha)ARE-RNP complex
+5363	Actin-ribonucleoprotein complex (POLR2A, GTF2F1, HNRNPU)
+5375	EGR-EP300 complex
+5380	TRBP containing complex (DICER, RPL7A, EIF6, MOV10 and subunits of the 60S ribosomal particle)
+5386	MLL1-WDR5 complex
+5426	ANCO1-HDAC3  complex
+5449	Splicing-associated factors complex
+5502	EED-EZH-YY1 polycomb complex
+5513	Polycomb repressive complex
+5518	BMI1-HPH1-HPH2 complex
+5521	EED-EZH polycomb complex
+5542	CCNB2-CDC2 complex
+5543	CCNB1-CDC2 complex
+5544	CDC2-PCNA-CCNB1-GADD45A complex
+5545	CDC2-PCNA-CCNB1-GADD45B complex
+5546	CDC2-PCNA-CCNB1-GADD45G complex
+5550	CDC2-CCNB1-CCNF complex
+5551	CDC2-CCNB1-PTCH1 complex
+5557	CDC2-CCNA2 complex
+5559	CDC2-CCNA2-CDK2 complex
+5589	LINC complex, S-phase
+5593	LINC core complex
+5596	LINC complex, quiescent cells
+5604	Emerin complex 1
+5606	Emerin-actin-NMI-(alphaII)spectrin complex
+5607	Emerin-actin-NMI complex
+5608	Emerin architectural complex
+5609	Emerin regulatory complex
+5611	Emerin complex 24
+5613	Emerin complex 25
+5614	Emerin complex 32
+5615	Emerin complex 52
+5622	HSP90-CIP1-FKBPL complex
+5643	ESPL1-CDC2 complex
+5663	TRIM27-RB1 complex
+5694	Nucleolar remodeling complex (NoRC complex)
+5695	TIP5-DNMT-HDAC1 complex
+5805	PGAM5-KEAP1-NRF2 complex
+5816	Apoptosome-procaspase 9 complex
+5877	MAP2K1-BRAF-RAF1-YWHAE-KSR1 complex
+5849	HSP90-CDC37-LRRK2 complex
+5870	FE65-TSHZ3-HDAC1 complex
+5872	BRAF-MAP2K1-MAP2K2-YWHAE complex
+5873	RAF1-MAP2K1-YWHAE complex
+5919	BRAF-RAF1-14-3-3 complex
+5980	LRRK2-CHIP-HSP90 complex
+6037	CHIP-HSC70 complex
+6052	BAG3-HSC70-HSPB8-CHIP complex

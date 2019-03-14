@@ -135,15 +135,29 @@ get_OR <- function(case_table, ctrl_table, gene_list, fisher=FALSE, int_type = N
 
 
 # Function to visualize a list of permuted odds ratios compared to the true odds ratio
-perm_viz <- function(perm_list, true_OR, mut_type, int_type){
+perm_viz <- function(perm_list, true_OR, mut_type, int_type, n_tests){
   
   nGreater = length(perm_list[which(perm_list >= true_OR)])
-  pval = nGreater/length(perm_list)
+  pval = (nGreater/length(perm_list))
+  if(nGreater == 0 ){
+    pval = "< 0.001"
+  }
   
-  hist(perm_list, main=paste0("Mutational odds ratio for ",mut_type, 
+  pdf(paste0(out_path, "/", int_type, "_", mut_type, ".pdf"))
+  hist(perm_list, main=paste0("Permutation of ",mut_type, 
                               " mutations in ", int_type, " interactome"), 
-       sub = paste0("Permutation test significance: ", pval),
+       sub = paste0("p: ", pval),
        xlab = "Odds Ratio")
   abline(v = true_OR, lty="dotted", lwd="5", col = "red")
+  dev.off()
+  
+  df = as.data.frame(perm_list)
+  img <- ggplot(data=df, aes(df$perm_list)) + geom_histogram() + 
+    geom_vline(xintercept = true_OR, col = "red", linetype="dashed") +
+    labs(title=paste0("Permutation of ",mut_type," mutations in ", int_type, " interactome"),
+         subtitle = paste0("p = ", pval),
+         x="Odds Ratio", y = "Frequency")
+
+  return(img)
 }
 

@@ -1,0 +1,91 @@
+Complex.name	Complex.id
+DNMT3B complex	49
+Nup 107-160 subcomplex	87
+ATP-utilizing chromatin assembly and remodeling factor (hACF) complex	94
+hNURF complex	100
+RNA polymerase II holoenzyme complex	103
+Polycomb repressive complex 1 (PRC1, hPRC-H)	115
+Polycomb repressive complex 1 (PRC1, hPRC-H)	116
+HuCHRAC complex	234
+WICH complex	236
+HMGB1-HMGB2-HSC70-ERP60-GAPDH complex	280
+SNF2h-cohesin-NuRD complex	282
+PC2 complex	300
+SMCC complex	301
+40S ribosomal subunit, cytoplasmic	305
+Ribosome, cytoplasmic	306
+60S ribosomal subunit, cytoplasmic	308
+40S ribosomal subunit, cytoplasmic	338
+Spliceosome	351
+18S U11/U12 snRNP	430
+NuA4/Tip60 HAT complex	528
+NuA4/Tip60 HAT complex	529
+TRAP complex	535
+HDAC1-associated core complex cII	649
+HDAC2-asscociated core complex	650
+P2X7 receptor signalling complex	725
+NuA4/Tip60-HAT complex A	798
+FCP1-associated protein complex	810
+FCP1-associated protein complex	811
+6S methyltransferase and RG-containing Sm proteins complex	835
+CERF complex (CECR2-containing remodeling factor complex)	917
+hNURF complex	919
+Remodeling and spacing factor (RSF) complex	921
+SNF2L-RSF1 complex	923
+WCRF complex	925
+CEN complex	929
+12S U11 snRNP	1068
+SMN complex	1142
+SMN complex	1143
+Histone H3.1 complex	1149
+Histone H3.3 complex	1150
+BCOR complex	1178
+C complex spliceosome	1181
+CDC5L core complex	1182
+CDC5L complex	1183
+ESCRT-III complex	1186
+Ubiquitin E3 ligase (DET1, DDB1, CUL4A, RBX1, COP1)	1214
+H2AX complex, isolated from cells without IR exposure	1223
+H2AX complex II	1227
+MLL-HCF complex	1256
+ALL-1 supercomplex	1257
+HNRPF-HNRPH1 complex	1287
+DCS complex (PTBP1, PTBP2, HNRPH1, HNRPF)	1288
+PABPC1-HSPA8-HNRPD-EIF4G1 complex	1308
+Large Drosha complex	1332
+SNW1 complex	1335
+NPC subcomplex (NUP98, NUP107, NUP133, NUP160)	1347
+ASCOM complex	1400
+NCOR1 complex	1413
+SNF2h-HDAC12 complex	1458
+(E.F.G) complex	1743
+SMN complex	1745
+CPSF6-EWSR1-ITCH-NUDT21-POLR2A-UBAP2L complex	1768
+DNAJB2-HSPA8-PSMA3 complex	2129
+Profilin 2 complex	2300
+RNA polymerase II (RNAPII)	2685
+HCF-1 complex	2721
+17S U2 snRNP	2755
+SMN complex, U7 snRNA specific	2757
+BRCA1-RNA polymerase II complex	2825
+Profilin 1 complex	2837
+NuA4/Tip60 HAT complex	2856
+NuA4/Tip60 HAT complex	2857
+60S APC containing complex	3008
+Nop56p-associated pre-rRNA complex	3055
+RNA polymerase II complex (RPB1, RAP74, CDK8, CYCC, SRB7, BAF190, BAF47), chromatin structure modifying	3060
+RNA polymerase II complex, chromatin structure modifying	3064
+RNA polymerase II complex, chromatin structure modifying	3066
+RNA polymerase II complex, incomplete (CDK8 complex), chromatin structure modifying	3067
+DGCR8 multiprotein complex	3082
+MASH1 promoter-coactivator complex	3137
+Kinase maturation complex 1	5199
+TNF-alpha/NF-kappa B signaling complex 6	5266
+TNF-alpha/NF-kappa B signaling complex 7	5268
+Actin-ribonucleoprotein complex (POLR2A, GTF2F1, HNRNPU)	5363
+TRBP containing complex (DICER, RPL7A, EIF6, MOV10 and subunits of the 60S ribosomal particle)	5380
+MLL1-WDR5 complex	5386
+Emerin complex 32	5614
+Nucleolar remodeling complex (NoRC complex)	5694
+CHIP-HSC70 complex	6037
+BAG3-HSC70-HSPB8-CHIP complex	6052

@@ -1,0 +1,18 @@
+Complex.name	Complex.id
+HMGB1-HMGB2-HSC70-ERP60-GAPDH complex	280
+Spliceosome	351
+18S U11/U12 snRNP	430
+C complex spliceosome	1181
+H2AX complex, isolated from cells without IR exposure	1223
+H2AX complex II	1227
+WINAC complex	1230
+MLL-HCF complex	1256
+ALL-1 supercomplex	1257
+MOF complex	1401
+CTCF-nucleophosmin-PARP-HIS-KPNA-LMNA-TOP complex	1728
+TLE1 corepressor complex (MASH1 promoter-corepressor complex)	1729
+17S U2 snRNP	2755
+Nop56p-associated pre-rRNA complex	3055
+UTX-MLL2/3 complex	3075
+TLE1 corepressor complex (MASH1 promoter-corepressor complex)	3135
+MLL1-WDR5 complex	5386

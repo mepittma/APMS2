@@ -1,0 +1,28 @@
+Complex.id	Complex.name
+220	ARF-Mule complex
+280	HMGB1-HMGB2-HSC70-ERP60-GAPDH complex
+351	Spliceosome
+430	18S U11/U12 snRNP
+563	F1F0-ATP synthase (EC 3.6.3.14), mitochondrial
+835	6S methyltransferase and RG-containing Sm proteins complex
+1068	12S U11 snRNP
+1142	SMN complex
+1143	SMN complex
+1181	C complex spliceosome
+1223	H2AX complex, isolated from cells without IR exposure
+1226	H2AX complex I
+1227	H2AX complex II
+1728	CTCF-nucleophosmin-PARP-HIS-KPNA-LMNA-TOP complex
+1729	TLE1 corepressor complex (MASH1 promoter-corepressor complex)
+1743	(E.F.G) complex
+1745	SMN complex
+2755	17S U2 snRNP
+2757	SMN complex, U7 snRNA specific
+2936	Ecsit complex (ECSIT, MT-CO2, GAPDH, TRAF6, NDUFAF1)
+3055	Nop56p-associated pre-rRNA complex
+3075	UTX-MLL2/3 complex
+3118	SMN1-SIP1-SNRP complex
+3135	TLE1 corepressor complex (MASH1 promoter-corepressor complex)
+5154	CTCF-nucleophosmin complex
+5385	GAIT complex
+5843	AIF-CYPA-DNA complex

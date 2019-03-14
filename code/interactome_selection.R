@@ -34,13 +34,10 @@ source(paste0(base_path, "/code/functions/score_interactions.R"))
 #run_FCA, run_FCB, run_saintx, run_saintq, write_params
 
 source(paste0(base_path, "/code/functions/score_interactomes.R"))
-#get_comps, get_prots, get_fisher, iref_ressponse_list
-
+#get_comps, get_prots, get_fisher, iref_response_list
 
 source(paste0(base_path, "/code/functions/permutation_functions.R"))
 #get_fisher, get_OR, get_prots, get_sig_compl, perm_viz, permute_status
-
-
 
 ####################################################
 # Run quantification/pre-processing
@@ -156,14 +153,6 @@ for (int_type in c("TBX5", "NKX25")){
 ####################################################
 # Score interactome lists for all parameter choices
 ####################################################
-library(data.table)
-saintq2intList <- function(in_file){
-  
-}
-
-saintx2intList <- function(in_file){
-  
-}
 
 for(int_type in c("GATA4", "TBX5", "NKX25")){
   
@@ -240,10 +229,8 @@ for(int_type in c("GATA4", "TBX5", "NKX25")){
       DNV_vec = c(DNV_vec, DNV_fish[1])
       LoF_vec = c(LoF_vec, LoF_fish[1])
       
-      ###############################
+      ############################### saintx
       for(level_type in c("protein", "peptide")){
-        
-        ### saintExpress algorithms ###
         
         # Read in data, get gene names
         if(level_type == "protein"){
@@ -282,7 +269,7 @@ for(int_type in c("GATA4", "TBX5", "NKX25")){
         LoF_fish = get_fisher(LoF_cases, LoF_ctrls, interactome_genes)
           
         # Save into results table
-        method = paste0("FCA_FDR", FDR_cutoff, "_KOfilt", KO_status)
+        method = paste0("saintx_", level_type, "_FDR", FDR_cutoff, "_KOfilt", KO_status)
         method_vec = c(method_vec, method)
         DNV_vec = c(DNV_vec, DNV_fish[1])
         LoF_vec = c(LoF_vec, LoF_fish[1])
@@ -325,7 +312,7 @@ for(int_type in c("GATA4", "TBX5", "NKX25")){
           LoF_fish = get_fisher(LoF_cases, LoF_ctrls, interactome_genes)
           
           # Save into results table
-          method = paste0("FCA_FDR", FDR_cutoff, "_KOfilt", KO_status)
+          method = paste0("saintq_", level_type, "_FDR", FDR_cutoff, "_KOfilt", KO_status,"_norm",norm_status)
           method_vec = c(method_vec, method)
           DNV_vec = c(DNV_vec, DNV_fish[1])
           LoF_vec = c(LoF_vec, LoF_fish[1])

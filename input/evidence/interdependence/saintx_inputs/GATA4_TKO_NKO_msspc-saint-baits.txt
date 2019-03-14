@@ -1,0 +1,10 @@
+gata4-gko1	GKO	C
+gata4-gko2	GKO	C
+gata4-gko3	GKO	C
+gata4-gko4	GKO	C
+gata4-nko1	NKO	T
+gata4-nko2	NKO	T
+gata4-nko3	NKO	T
+gata4-tko1	TKO	T
+gata4-tko2	TKO	T
+gata4-tko3	TKO	T

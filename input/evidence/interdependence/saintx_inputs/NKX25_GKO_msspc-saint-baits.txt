@@ -1,0 +1,5 @@
+nkx-nko1	NKO	C
+nkx-nko2	NKO	C
+nkx-nko3	NKO	C
+nkx-gko2	GKO	T
+nkx-gko3	GKO	T

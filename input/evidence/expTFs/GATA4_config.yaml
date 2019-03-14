@@ -1,8 +1,8 @@
 files:
-  evidence: /Users/student/Documents/PollardLab/APMS/input/evidence/GATA4_evidence.txt
-  keys: /Users/student/Documents/PollardLab/APMS/input/evidence/keys_GATA4.txt
-  contrasts: /Users/student/Documents/PollardLab/APMS/input/evidence/contrast_GATA4.txt
-  output: /Users/student/Documents/PollardLab/APMS/intermediate/artMS/GATA4_results.txt
+  evidence: /Users/student/Documents/PollardLab/APMS2/input/evidence/GATA4_evidence.txt
+  keys: /Users/student/Documents/PollardLab/APMS2/input/evidence/keys_GATA4.txt
+  contrasts: /Users/student/Documents/PollardLab/APMS2/input/evidence/contrast_GATA4.txt
+  output: /Users/student/Documents/PollardLab/APMS2/intermediate/artMS/GATA4_results.txt
 qc:
   basic: 1
   extended: 1

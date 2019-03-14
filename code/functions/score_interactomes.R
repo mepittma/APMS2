@@ -3,10 +3,53 @@
 # Corum expansion functions
 #################################################
 
+# Function to perform fisher exact test given input list and complex id
+get_complex_fisher <- function(gList, compl_id, corum, total_prots){
+  compl_prots = get_prots(compl_id, corum)
+  
+  int_comp = length(gList[gList %in% compl_prots])
+  int_non_comp = length(gList[!(gList %in% compl_prots)])
+  non_int_comp = length(compl_prots[!(compl_prots %in% gList)])
+  non_int_non_comp = length(total_prots) - (int_comp + int_non_comp + non_int_comp)
+  
+  fisherMat <- matrix(c(int_comp, int_non_comp, non_int_comp, non_int_non_comp), nrow = 2,
+                      dimnames = list(Complex = c("Yes","No"),
+                                      Interactome = c("Yes", "No")))
+  
+  # Fisher test
+  fish = fisher.test(fisherMat, alternative = 'greater')
+  return(fish[1])
+  
+}
+
+# Function to get significant corum complex IDs given a list of proteins in an interactome
+get_sig_compl <- function(prot_list, corum){
+  
+  total_prots = unique(c(corum$Interactor1, corum$Interactor2))
+  compl_list = unique(corum$Complex.id)
+  sig_complexes = c()
+  
+  for ( compl in compl_list ){
+    
+    fish = get_complex_fisher(prot_list, compl, corum, total_prots)
+    
+    if (fish <= 0.05){
+      sig_complexes = c(sig_complexes, compl)
+    }
+  }
+  return(sig_complexes)
+}
+
 # Function to get a list of complex IDs given a list of interactors
-get_comps <- function(int_list, corum){
-  return(unique(c(corum$Complex.id[which(corum$Interactor1 %in% int_list)],
-                  corum$Complex.id[which(corum$Interactor2 %in% int_list)])))
+get_comps <- function(int_list, corum, enriched = FALSE){
+  
+  if(enriched == TRUE){
+    return(get_sig_compl(int_list, corum))
+  } else {
+    return(unique(c(corum$Complex.id[which(corum$Interactor1 %in% int_list)],
+                    corum$Complex.id[which(corum$Interactor2 %in% int_list)])))
+  }
+
 }
 
 # Function to isolate proteins given a complex ID

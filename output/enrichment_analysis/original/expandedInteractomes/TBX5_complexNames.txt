@@ -1,0 +1,22 @@
+Complex.id	Complex.name
+87	Nup 107-160 subcomplex
+236	WICH complex
+280	HMGB1-HMGB2-HSC70-ERP60-GAPDH complex
+662	Hoxa9-PBX2-Meis1 complex
+1186	ESCRT-III complex
+1230	WINAC complex
+1254	Menin-associated histone methyltransferase complex
+1256	MLL-HCF complex
+1257	ALL-1 supercomplex
+1347	NPC subcomplex (NUP98, NUP107, NUP133, NUP160)
+1399	WDR5-ASH2L-RBBP5-MLL2 complex
+1400	ASCOM complex
+1401	MOF complex
+5709	ArgBP2a-CBL-PTK2B complex
+2719	Casein kinase II-HMG1 complex
+2730	Set1B complex
+2731	Set1A complex
+3075	UTX-MLL2/3 complex
+5195	PTIP-HMT complex
+5286	TNF-alpha/NF-kappa B signaling complex 10
+5386	MLL1-WDR5 complex

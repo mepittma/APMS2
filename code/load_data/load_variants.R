@@ -7,7 +7,7 @@ DNV_ctrls <- read.csv(paste0(base_path, "/input/variants/DNV_ctrls.csv"), skip=1
 
 # Get control dataframe - synonymous DNVs
 DNV_case_syn <- DNV_cases[which(DNV_cases$Variant.Class == "syn"),]
-DNV_ctrl_syn <- DNV_cases[which(DNV_cases$Variant.Class == "syn"),]
+DNV_ctrl_syn <- DNV_ctrls[which(DNV_ctrls$Variant.Class == "syn"),]
 
 # Remove DNV entries that weren't predicted to be damaging
 DNV_cases <- DNV_cases[which(!(DNV_cases$Variant.Class == "syn")),]

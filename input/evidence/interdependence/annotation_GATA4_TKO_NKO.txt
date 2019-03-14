@@ -1,0 +1,11 @@
+Raw.file	Condition	BioReplicate	Run	IsotopeLabelType	SAINT	BioReplicaSaint
+qx010931	GKO	1	1	L	C	gata4_gko1
+qx010933	GKO	2	2	L	C	gata4_gko2
+qx012066	GKO	3	3	L	C	gata4_gko3
+qx012068	GKO	4	4	L	C	gata4_gko4
+qx012070	NKO	5	5	L	T	gata4_nko1
+qx012072	NKO	6	6	L	T	gata4_nko2
+qx012074	NKO	7	7	L	T	gata4_nko3
+qx012076	TKO	8	8	L	T	gata4_tko1
+qx012078	TKO	9	9	L	T	gata4_tko2
+qx012080	TKO	10	10	L	T	gata4_tko3

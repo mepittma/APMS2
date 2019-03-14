@@ -1,0 +1,43 @@
+files:
+  evidence: /Users/student/Documents/PollardLab/APMS2/input/evidence/interdependence/GATA4_TKO_NKO_evidence.txt
+  keys: /Users/student/Documents/PollardLab/APMS2/input/evidence/interdependence/keys_GATA4_TKO_NKO.txt
+  contrasts: /Users/student/Documents/PollardLab/APMS2/input/evidence/interdependence/contrast_GATA4_TKO_NKO.txt
+  output: /Users/student/Documents/PollardLab/APMS2/intermediate/GATA4_TKO_NKO_results.txt
+qc:
+  basic: 1
+  extended: 1
+data:
+  enabled: 1
+  fractions:
+    enabled: 0
+  silac:
+    enabled: 0
+  filters:
+    enabled: 1
+    contaminants: 1
+    protein_groups: remove
+    modifications: APMS
+  sample_plots: 1
+msstats:
+  enabled: 1
+  msstats_input: ~
+  profilePlots: none
+  normalization_method: equalizeMedians
+  normalization_reference: ~
+  summaryMethod: TMP
+  censoredInt: NA
+  cutoffCensored: minFeature
+  MBimpute: 1
+  feature_subset: all
+output_extras:
+  enabled: 1
+  annotate:
+    enabled: 1
+    species: HUMAN
+  plots:
+    volcano: 1
+    heatmap: 1
+    LFC: -1.5 1.5
+    FDR: 0.05
+    heatmap_cluster_cols: 0
+    heatmap_display: log2FC

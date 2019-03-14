@@ -1,0 +1,6 @@
+normalize_control=true
+input_filename=saintq_input_proteins.txt
+input_level=protein
+protein_colname=Proteins
+compress_n_ctrl=100
+compress_n_rep=100

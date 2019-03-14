@@ -1,24 +1,29 @@
 base_path = "/Users/student/Documents/PollardLab/APMS2"
+#out_path = paste0(base_path, "/output/enrichment_analysis/original")
+out_path = paste0(base_path, "/output/enrichment_analysis/saintq_n")
 
 ####################################################
 # Read in the data
 ####################################################
 
 # Load in interactome data.
-int_file = paste0(base_path, "/input/precomp_interactomes/interactomes.csv")
-ints <- read.table(int_file, 
-                   sep = "\t",fill = TRUE, header = TRUE, stringsAsFactors = FALSE)
+#int_file = paste0(base_path, "/input/precomp_interactomes/original_interactomes.csv")
+int_file = paste0(base_path, "/input/precomp_interactomes/saintq_n_interactomes.csv")
+ints <- read.table(int_file, sep = ",", fill = TRUE, header = TRUE, stringsAsFactors = FALSE)
+
+names(ints)[which(names(ints) == "Prey")] <- "Prey_proteinname"
 
 # Read in corum data
 corum <- read.table(paste0(base_path, "/input/databases/corum_human_CytoscapeFormatted.txt"), 
-                    sep = "\t", fill = TRUE, header = TRUE, stringsAsFactors = FALSE)
+                    sep = "\t", quote = "", fill = TRUE, header = TRUE, stringsAsFactors = FALSE)
 corum <- as.data.frame(corum[,c(1:8)])
 
 # Read in variant data
 source(paste0(base_path, "/code/load_data/load_variants.R"))
 
 # Read in alias conversion file
-unimap <- read.table(paste0(base_path, "/input/aliases/UniMap.txt"),header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+unimap <- read.table(paste0(base_path, "/input/aliases/combined_unimap.txt"),
+                     header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 #######################################
 # Save out expanded corum interactomes
@@ -35,20 +40,20 @@ for(int_type in c("TBX5", "NKX25", "GATA4")){
   # Save out names of complexes
   complex_names = unique(corum[which(corum$Complex.id %in% complexes), c("Complex.id", "Complex.name")])
   write.table(complex_names, 
-              file = paste0(base_path, "/output/enrichment_analysis/expandedInteractomes/", int_type, "_complexNames.txt"),
+              file = paste0(out_path, "/expandedInteractomes/", int_type, "_complexNames.txt"),
               sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
   
   # Save out complex members
   int_comp$geneName1 <- unimap$GeneSymbol[match(int_comp$Interactor1, as.vector(unimap$UniProt))]
   int_comp$geneName2 <- unimap$GeneSymbol[match(int_comp$Interactor2, as.vector(unimap$UniProt))]
   write.table(int_comp[,c("Interactor1", "Interactor2", "geneName1", "geneName2", "Complex.name", "Complex.id")],
-              file = paste0(base_path, "/output/enrichment_analysis/expandedInteractomes/cytoscapeFormat_", int_type, ".txt"),
+              file = paste0(out_path, "/expandedInteractomes/cytoscapeFormat_", int_type, ".txt"),
               sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE )
   
   complex_members = unique(c(int_comp$geneName1, int_comp$geneName2))
   complex_members = unlist(strsplit(complex_members, "; "))
   write.table(complex_members, 
-              file = paste0(base_path, "/output/enrichment_analysis/expandedInteractomes/", int_type, "_complexMembers.txt"),
+              file = paste0(out_path, "/expandedInteractomes/", int_type, "_complexMembers.txt"),
               quote = FALSE, row.names = FALSE, col.names = FALSE)
   
 }
@@ -61,7 +66,7 @@ for(int_type in c("TBX5", "NKX25", "GATA4")){
 common_prey = ints$Prey_proteinname[which(duplicated(ints$Prey_proteinname))]
 common_table = ints[which(ints$Prey_proteinname %in% common_prey),]
 write.table(common_table, 
-            file = paste0(base_path, "/output/enrichment_analysis/commonComplexes/original_interactome_overlaps.txt"),
+            file = paste0(out_path, "/commonComplexes/original_interactome_overlaps.txt"),
             sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
 
 # Find any complexes in common
@@ -89,10 +94,10 @@ for (i in c(1:nrow(common_frame))){
 }
 
 write.table(common_frame,
-            file = paste0(base_path, "/output/enrichment_analysis/commonComplexes/commonComplexes_cytoscapeFormat.txt"),
+            file = paste0(out_path, "/commonComplexes/commonComplexes_cytoscapeFormat.txt"),
             sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE )
 write.table(unique(common_frame[,c("Complex.name", "Complex.id")]),
-            file = paste0(base_path, "/output/enrichment_analysis/commonComplexes/commonComplexes_list.txt"),
+            file = paste0(out_path, "/commonComplexes/commonComplexes_list.txt"),
             sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE )
 
 # Find any complex members in common between the three
@@ -120,7 +125,7 @@ for (i in c(1:nrow(protein_connectors))){
 names(protein_connectors)[c(1,2)] = c("UniProt", "GeneSymbol")
 
 write.table(protein_connectors,
-            file = paste0(base_path, "/output/enrichment_analysis/commonComplexes/expanded_interactome_overlaps.txt"),
+            file = paste0(out_path, "/commonComplexes/expanded_interactome_overlaps.txt"),
             sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE )
 
 #######################################################
@@ -174,8 +179,22 @@ for(int_type in c("TBX5", "NKX25", "GATA4")){
   }
   
   sig_frame = unique(corum[which(corum$Complex.id %in% sig_complexes),c("Complex.id", "Complex.name", "subunits..UniProt.IDs.")])
+  
+  if(nrow(sig_frame) > 0) {
+    sig_frame$GeneSymbol <- "NA"
+    
+    # Get list of protein interactors, convert to genes, add to dataframe
+    for(i in c(1:nrow(sig_frame))){
+      prots = strsplit(sig_frame$subunits..UniProt.IDs.[i], ",")
+      genes = unique(unimap$GeneSymbol[which(unimap$UniProt %in% unlist(prots))])
+      sig_frame$GeneSymbol[i] = paste(genes, collapse = ",")
+    }
+  }
+
+  
+  # Write out
   write.table(sig_frame, 
-              file = paste0(base_path, "/output/enrichment_analysis/enriched4interactors/", int_type, "_complexes.txt"),
+              file = paste0(out_path, "/enriched4interactors/", int_type, "_complexes.txt"),
               quote = FALSE, row.names = FALSE, col.names = TRUE)
   
 }
@@ -234,7 +253,7 @@ get_poisson <- function(case_table, ctrl_table, gene_list){
 
 # Find corum complexes with members in the interactomes.
 int_prots <- unique(c(as.vector(ints$Prey_proteinname), "P43694", "Q99593", "P52952"))
-int_genes <- unique(c(as.vector(ints$Prey_genename), "GATA4", "TBX5", "NKX25"))
+
 int_complexes <- unique(c(as.vector(corum$Complex.id[which(
   corum$Interactor1 %in% int_prots| corum$Interactor2 %in% int_prots)])))
 int_comp <- corum[which(corum$Complex.id %in% int_complexes),]
@@ -278,7 +297,7 @@ for(i in c(1:length(int_complexes))){
 
 # Order by combined pvalue and save out
 write.csv(complex_lookup[order(complex_lookup$combined_pval),], 
-          file = paste0(base_path, "/output/enrichment_analysis/enriched4PCGC/interactome_complex_enrichment.csv"), 
+          file = paste0(out_path, "/enriched4PCGC/interactome_complex_enrichment.csv"), 
           row.names = FALSE) 
 
 
