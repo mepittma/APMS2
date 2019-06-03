@@ -1,0 +1,8 @@
+Raw.file	Condition	BioReplicate	Run	IsotopeLabelType	SAINT	BioReplicaSaint
+qx010931	control	4	4	L	C	control_1
+qx010933	control	5	5	L	C	control_2
+qx012066	control	6	6	L	C	control_3
+qx012068	control	7	7	L	C	control_4
+qx014228	wt	8	8	L	T	wt_1
+qx014230	wt	9	9	L	T	wt_2
+qx014232	wt	10	10	L	T	wt_3

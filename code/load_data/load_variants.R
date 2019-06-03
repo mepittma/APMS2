@@ -13,6 +13,16 @@ DNV_ctrl_syn <- DNV_ctrls[which(DNV_ctrls$Variant.Class == "syn"),]
 DNV_cases <- DNV_cases[which(!(DNV_cases$Variant.Class == "syn")),]
 DNV_ctrls <- DNV_ctrls[which(!(DNV_ctrls$Variant.Class == "syn")),]
 
+# Save out new DNV/syn-DNV files
+#write.csv(DNV_case_syn, file = paste0(base_path, "/input/variants/true_syn_DNV_cases.csv"),
+#          quote = FALSE, row.names = FALSE)
+#write.csv(DNV_ctrl_syn, file = paste0(base_path, "/input/variants/true_syn_DNV_ctrls.csv"),
+#          quote = FALSE, row.names = FALSE)
+#write.csv(DNV_cases, file = paste0(base_path, "/input/variants/true_DNV_cases.csv"),
+#          quote = FALSE, row.names = FALSE)
+#write.csv(DNV_ctrls, file = paste0(base_path, "/input/variants/true_DNV_ctrls.csv"),
+#          quote = FALSE, row.names = FALSE)
+
 rec_cases <- read.csv(paste0(base_path, "/input/variants/recessive_cases.csv"), skip=1, 
                       header = TRUE, stringsAsFactors = FALSE)
 rec_ctrls <- read.csv(paste0(base_path, "/input/variants/recessive_ctrls.csv"), skip=1, 

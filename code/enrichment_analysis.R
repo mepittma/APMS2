@@ -7,8 +7,8 @@ out_path = paste0(base_path, "/output/enrichment_analysis/saintq_n")
 ####################################################
 
 # Load in interactome data.
-#int_file = paste0(base_path, "/input/precomp_interactomes/original_interactomes.csv")
-int_file = paste0(base_path, "/input/precomp_interactomes/saintq_n_interactomes.csv")
+#int_file = paste0(base_path, "/intermediate/interactome_lists/original/combined_APMS_interactome_G001_T05_N1.csv")
+int_file = paste0(base_path, "/intermediate/interactome_lists/saintq_n/combined_APMS_interactome_G001_T05_N1.csv")
 ints <- read.table(int_file, sep = ",", fill = TRUE, header = TRUE, stringsAsFactors = FALSE)
 
 names(ints)[which(names(ints) == "Prey")] <- "Prey_proteinname"

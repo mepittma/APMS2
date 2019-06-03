@@ -1,0 +1,7 @@
+control-1	control	C
+control-2	control	C
+control-3	control	C
+control-4	control	C
+g296s-1	g296s	T
+g296s-2	g296s	T
+g296s-3	g296s	T

@@ -1,0 +1,9 @@
+normalize_control=true
+input_filename=saintq_peptides_test.txt
+input_level=peptide
+protein_colname=Proteins
+pep_colname=Sequence
+compress_n_ctrl=100
+compress_n_rep=100
+min_n_pep=3
+best_prop_pep=0.5

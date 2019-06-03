@@ -7,10 +7,10 @@ library(artMS)
 create_artMSfiles <- function(int_type, key_file){
   
   # Create artMS input files
-  #keys = read.table(paste0(base_path, "/input/evidence/expTFs/annotation_", int_type, ".txt"), 
-  #                  na.strings=c("", "NA"), sep = "\t", header = TRUE)
-  keys = read.table(paste0(base_path, "/input/evidence/interdependence/annotation_", int_type, ".txt"), 
+  keys = read.table(paste0(base_path, "/input/evidence/expTFs/annotation_", int_type, ".txt"), 
                     na.strings=c("", "NA"), sep = "\t", header = TRUE)
+  #keys = read.table(paste0(base_path, "/input/evidence/interdependence/annotation_", int_type, ".txt"), 
+  #                  na.strings=c("", "NA"), sep = "\t", header = TRUE)
   keys = keys[which(!is.na(keys$Condition)),]
   keys = keys[,c('Raw.file', 'IsotopeLabelType', 'Condition', 'BioReplicaSaint', 'Run', "SAINT")]
   names(keys) = c("RawFile", "IsotopeLabelType", "Condition", "BioReplicate", "Run", "SAINT")
@@ -19,9 +19,9 @@ create_artMSfiles <- function(int_type, key_file){
   write.table(keys, file =  key_file,
               sep = "\t", quote = FALSE, row.names = FALSE)
   
-  #contrast = write.table(paste0("control-",int_type), 
-  #                       file = paste0(base_path, "/input/evidence/expTFs/contrast_", int_type, ".txt"),
-  #                       quote = FALSE, row.names = FALSE, col.names = FALSE)
+  contrast = write.table(paste0("control-",int_type), 
+                         file = paste0(base_path, "/input/evidence/expTFs/contrast_", int_type, ".txt"),
+                         quote = FALSE, row.names = FALSE, col.names = FALSE)
 }
 
 ####################################################
@@ -29,9 +29,9 @@ create_artMSfiles <- function(int_type, key_file){
 ####################################################
 run_artMS <- function(int_type, ev_file, key_file, quant_var){
   
-  if(int_type != "NKX25"){
-    artmsQuantification(yaml_config_file = paste0(base_path, "/input/evidence/interdependence/", int_type, "_config.yaml"))
-  }
+  #if(int_type != "NKX25"){
+  #  artmsQuantification(yaml_config_file = paste0(base_path, "/input/evidence/interdependence/", int_type, "_config.yaml"))
+  #}
   
   artmsEvidenceToSaintExpress(evidence_file = ev_file, 
                               keys_file = key_file, 

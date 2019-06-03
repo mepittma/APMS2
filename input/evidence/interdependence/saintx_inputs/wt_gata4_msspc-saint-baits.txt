@@ -1,0 +1,7 @@
+control-1	control	C
+control-2	control	C
+control-3	control	C
+control-4	control	C
+wt-1	wt	T
+wt-2	wt	T
+wt-3	wt	T

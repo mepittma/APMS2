@@ -73,6 +73,32 @@ permute_status <- function(case_table, ctrl_table, gene_list, n_perm){
   return(perm_list)
 }
 
+# Function to complete n_perm number of permutations on a given input mutation table
+permute_geneList <- function(case_table, ctrl_table, gene_list, background_list, n_perm){
+  
+  perm_list = c()
+  case_ids = case_table$Blinded.ID
+  ctrl_ids = ctrl_table$Blinded.ID
+  mut_table <- rbind(case_table[,c('Blinded.ID', "Gene")], ctrl_table[,c('Blinded.ID', "Gene")])
+  
+  for (i in 1:n_perm){
+    
+    # Create a scrambled lookup table for genes
+    scram = background_list[sample(length(unique(mut_table$Gene)))]
+    lookup = as.data.frame(cbind(unique(mut_table$Gene), scram))
+    
+    # Replace mut_table IDs with the scrambled IDs
+    perm_data <- mut_table
+    perm_data$Gene <- lookup$scram[match(mut_table$Gene, lookup$V1)]
+    
+    # Separate data by case/control ID
+    perm_cases = perm_data[which(perm_data$Blinded.ID %in% case_ids),]
+    perm_ctrls = perm_data[which(perm_data$Blinded.ID %in% ctrl_ids),]
+    perm_list = c(perm_list, get_OR(perm_cases, perm_ctrls, gene_list))
+  }
+  
+  return(perm_list)
+}
 
 # Function to calculate the odds ratio of a group of genes
 get_OR <- function(case_table, ctrl_table, gene_list, fisher=FALSE, int_type = NULL, mut_type = NULL){
@@ -143,12 +169,21 @@ perm_viz <- function(perm_list, true_OR, mut_type, int_type, n_tests){
     pval = "< 0.001"
   }
   
-  pdf(paste0(out_path, "/", int_type, "_", mut_type, ".pdf"))
-  hist(perm_list, main=paste0("Permutation of ",mut_type, 
+  pdf(paste0(out_path, "/", int_type, "_", mut_type, "_noLine.pdf"))
+  par(lwd=2, cex=2)
+  h = hist(perm_list)
+  plot(h, main=paste0(mut_type, 
+                       " mutations in ", int_type, " interactome"), 
+       sub = paste0("p: ", pval),
+       xlab = "Odds Ratio", cex=2, lwd=2)
+  dev.off()
+  
+  pdf(paste0(out_path, "/", int_type, "_", mut_type, "_redLine.pdf"))
+  hist(perm_list, main=paste0(mut_type, 
                               " mutations in ", int_type, " interactome"), 
        sub = paste0("p: ", pval),
-       xlab = "Odds Ratio")
-  abline(v = true_OR, lty="dotted", lwd="5", col = "red")
+       xlab = "Odds Ratio",cex=1.5, col="cadetblue1")
+  abline(v = true_OR, lty="dotted", lwd=10)
   dev.off()
   
   df = as.data.frame(perm_list)

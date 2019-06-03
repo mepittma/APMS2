@@ -20,3 +20,17 @@ boxplot(quant$control.1, quant$control.2, quant$control.3)
 autoplot(prcomp(quant[,c(3:8)]), data = quant, color = names(quant)[c(3:8)])
 
 # Run saintq using only 2 as controls
+source(paste0(base_path, "/code/functions/score_interactions.R"))
+int_type = "NKX25_2ctrl"
+
+# Load saintq norm that only used 2 controls
+ctrl2 = read.table(paste0(base_path, "/input/evidence/expTFs/saintq_inputs/NKX25_c2/scores_list__saintq_peptides_test.txt__.tsv"),
+                   sep = "\t", comment.char = "", header = TRUE, stringsAsFactors = FALSE)
+
+# Load saintqnorm with 3 controls
+ctrl3 = read.table(file = paste0(base_path,"/intermediate/interaction_scoring/saintq/NKX25_peptide_norm_true.txt"),
+                          sep = "\t", stringsAsFactors = FALSE, fill = TRUE, header = TRUE, comment.char = "")
+
+ctrl2 <- ctrl2[which(ctrl2$BFDR < 0.1),]
+ctrl3 <- ctrl3[which(ctrl3$BFDR < 0.1),]
+

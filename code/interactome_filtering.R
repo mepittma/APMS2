@@ -156,3 +156,21 @@ for(analysis_type in c("original", "saintq_n")){
 
 }
 
+# Write out combined corum-expanded interactomes
+for(analysis_type in c("original", "saintq_n")){
+  GATA = read.csv(paste0(base_path, "/intermediate/interactome_lists/", analysis_type, "/GATA4", 
+                         "_corum_expanded_interactome_G001.csv"), stringsAsFactors = FALSE)
+  TBX5 = read.csv(paste0(base_path, "/intermediate/interactome_lists/", analysis_type, "/TBX5", 
+                         "_corum_expanded_interactome_T05.csv"), stringsAsFactors = FALSE)
+  NKX25 = read.csv(paste0(base_path, "/intermediate/interactome_lists/", analysis_type, "/NKX25", 
+                          "_corum_expanded_interactome_N1.csv"), stringsAsFactors = FALSE)
+  
+  combined_corum = rbind(GATA,TBX5)
+  combined_corum = rbind(combined_corum, NKX25)
+  
+  write.csv(combined_corum, 
+            paste0(base_path, "/intermediate/interactome_lists/", analysis_type, 
+                   "/combined_corum_expanded_interactome_G001T05N1.csv"),
+            row.names = FALSE, quote= FALSE)
+}
+
