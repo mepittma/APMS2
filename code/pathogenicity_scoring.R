@@ -7,6 +7,64 @@ source(paste0(base_path, "/code/load_data/load_variants.R"))
 cols <- c("Blinded.ID", "Cardiac.Category", "EM", "NDD", "CHR", "POS", "REF", "ALT", "Gene","pLI.Score")
 mut_table <- rbind(DNV_cases[,cols], LoF_cases[,cols])
 
+####################### Kihyun ######################## 
+
+mut_table = DNV_cases[,cols]
+gene_data = mut_table
+analysis_type = "saintq_n"
+ints = read.csv(paste0(base_path, "/intermediate/interactome_lists/",
+                       analysis_type,"/combined_APMS_interactome_G001_T05_N1.csv"),
+                stringsAsFactors = FALSE, header = TRUE)
+int_genes = unique(ints$Prey_genename)
+int_genes = unique(unlist(strsplit(int_genes, "; ")))
+
+# mutperkb
+exon_coords <- read.table(paste0(base_path, "/input/databases/gene_start_stop.txt"), 
+                          sep = "\t", header = TRUE)
+exon_coords$CDS.Length <- NULL
+exon_coords$geneLength <- exon_coords$Gene.end..bp. - exon_coords$Gene.start..bp.
+exon_coords <- unique(exon_coords)
+
+freq_table <- as.data.frame(table(gene_data$Gene))
+freq_table$geneLength <- exon_coords$geneLength[match(freq_table$Var1, exon_coords$Gene.name)]
+freq_table$mutperkb <- (freq_table$Freq / freq_table$geneLength) * 1000
+
+gene_data$gene_length <- freq_table$geneLength[match(gene_data$Gene, freq_table$Var1)]
+gene_data$n_mutations <- freq_table$Freq[match(gene_data$Gene, freq_table$Var1)]
+gene_data$mutperkb <- freq_table$mutperkb[match(gene_data$Gene, freq_table$Var1)]
+# Normalize the mutperkb score to be between 0.5 and 1 - we don't want to penalize
+# rarely-mutated genes too harshly
+range51 <- function(x){(0.5*(x-min(x))/(max(x)-min(x)) + 0.5)}
+gene_data$mutperkb[is.na(gene_data$mutperkb)] = 0.000001
+gene_data$mutperkb = gene_data$mutperkb + 0.000001
+gene_data$norm_mutperkb = range51(log(gene_data$mutperkb))
+
+# Is the gene in Barbara's interactome
+gene_data$Interactome = "No"
+gene_data$Interactome[which(gene_data$Gene %in% int_genes)] <- "Yes"
+gd <- gene_data[,c("Gene", "gene_length", "n_mutations","mutperkb", "pLI.Score","Interactome")]
+gd <- unique(gd)
+
+gd$pLI.rank = rank(gd$pLI.Score)
+gd$mutperkb.rank = rank(gd$mutperkb)
+gd$AddedRank = rowSums(gd[,c("pLI.rank", "mutperkb.rank")])
+final_rank <- gd[order(-gd$AddedRank),]
+ofile = paste0(base_path, "/output/pathogenicity_scoring/saintq_n/Kihyun_genes_ranked_NApLIhigh.csv")
+
+write.csv(final_rank, ofile, row.names = FALSE)
+
+
+# Coerce NAs to 0s
+gd$pLI.Score[which(gd$pLI.Score %in% c("NA","N/A"))] <- 0
+gd$pLI.Score[is.na(gd$pLI.Score)] <- 0
+gd$pLI.rank = rank(gd$pLI.Score)
+gd$AddedRank = rowSums(gd[,c("pLI.rank", "mutperkb.rank")])
+final_rank <- gd[order(-gd$AddedRank),]
+ofile = paste0(base_path, "/output/pathogenicity_scoring/saintq_n/Kihyun_genes_ranked_NApLI_low.csv")
+
+write.csv(final_rank, ofile, row.names = FALSE)
+
+
 ######################## Step 1: Select genes in interactomes with LoF and DNV ######################## 
 
 for (analysis_type in c("original", "sainq_n")){

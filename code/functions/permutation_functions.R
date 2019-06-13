@@ -169,21 +169,23 @@ perm_viz <- function(perm_list, true_OR, mut_type, int_type, n_tests){
     pval = "< 0.001"
   }
   
-  pdf(paste0(out_path, "/", int_type, "_", mut_type, "_noLine.pdf"))
   par(lwd=2, cex=2)
   h = hist(perm_list)
+  pdf(paste0(out_path, "/", int_type, "_", mut_type, "_noLine.pdf"))
   plot(h, main=paste0(mut_type, 
                        " mutations in ", int_type, " interactome"), 
        sub = paste0("p: ", pval),
        xlab = "Odds Ratio", cex=2, lwd=2)
   dev.off()
   
+  par(lwd=2, cex=2)
+  h = hist(perm_list)
   pdf(paste0(out_path, "/", int_type, "_", mut_type, "_redLine.pdf"))
-  hist(perm_list, main=paste0(mut_type, 
-                              " mutations in ", int_type, " interactome"), 
+  plot(h, main=paste0(mut_type, 
+                      " mutations in ", int_type, " interactome"), 
        sub = paste0("p: ", pval),
-       xlab = "Odds Ratio",cex=1.5, col="cadetblue1")
-  abline(v = true_OR, lty="dotted", lwd=10)
+       xlab = "Odds Ratio", cex=2, lwd=2)
+  abline(v = true_OR, lty="dotted", lwd=7, col="red")
   dev.off()
   
   df = as.data.frame(perm_list)

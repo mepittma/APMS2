@@ -8,7 +8,8 @@ base_path = "/Users/student/Documents/PollardLab/APMS2"
 #out_path = paste0(base_path, "/output/permutations/original_enrichedComp")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_unexpanded")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_unexpanded_G001_T05_N1")
-out_path = paste0(base_path, "/output/permutations/conference_figs")
+#out_path = paste0(base_path, "/output/permutations/conference_figs")
+out_path = paste0(base_path, "/output/permutations/g296s")
 
 library(ggplot2)
 source(paste0(base_path, "/code/functions/permutation_functions.R"))
@@ -163,6 +164,133 @@ for(mut_type in c("DNV", "LoF", "syn-DNV")){
   
   true_OR = get_OR(cases, ctrls, interactome_genes, fisher = TRUE, int_type=int_type, mut_type)
   permList <- permute_status(cases, ctrls, interactome_genes, n_perm)
+  img = perm_viz(permList, true_OR, mut_type, int_type, n_tests=3)
+  ggsave(file= paste0(out_path, "/", int_type, "_", mut_type, ".svg"), plot = img)
+  
+  # Save out record of permutation data
+  true_row = as.data.frame(true_OR)
+  true_row$type = "true"
+  perm_rows = as.data.frame(permList)
+  perm_rows$type = "permuted"
+  names(true_row) = c("OddsRatio", "type")
+  names(perm_rows) = c("OddsRatio", "type")
+  perm_record = rbind(true_row, perm_rows)
+  
+  write.table(perm_record, 
+              file = paste0(out_path, "/perm_score_lists/", int_type, "_",mut_type,".txt"),
+              row.names = FALSE, quote = FALSE)
+  
+  
+}
+
+# # # # # # new GATA4 WT runs # # # # # # # 
+int_type = "wt_gata4"
+  
+#### Saintq_norm ####
+tab = read.table(paste0(base_path, "/intermediate/interaction_scoring/saintq/", 
+                    "wt_gata4_protein_norm_true.txt"),
+             sep = "\t", stringsAsFactors=F, comment.char="", header=T)
+tab_sig = subset(tab, tab$BFDR < 0.05)
+
+# Remove non-nuclear genes from interactome
+names(tab_sig)[which(names(tab_sig) == "Prey_proteinname")] <- "Prey"
+non_nuclear = read.table(paste0(base_path, "/input/databases/localization_non_nuclear_BINGO_.txt"),
+                         sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+non_nuclear = non_nuclear[which(!non_nuclear$subcellular.location == "Nucleus"),]
+tab_sig = tab_sig[which(!tab_sig$Prey %in% non_nuclear$UniprotID),]
+
+#### Corum expansion ####
+#complexes = get_comps(tab_sig$Prey,corum, enriched=FALSE)
+#complexes = get_comps(tab_sig$Prey, corum, enriched=TRUE)
+complexes = get_comps("NA", corum, enriched=TRUE)
+interactome_prots = unique(c(get_prots(complexes, corum), tab_sig$Prey))
+
+# Get gene names for interactome
+interactome_genes = quant_unimap$GeneSymbol[match(interactome_prots, quant_unimap$UniProt)]
+interactome_genes = unlist(strsplit(interactome_genes, "; "))
+write.table(interactome_genes[!is.na(interactome_genes)],
+            file = paste0(base_path, "/intermediate/interactome_lists/saintq_n/new_gata4_wt.txt"),
+            quote = F, row.names=F, col.names = F)
+
+# Remove blacklist genes from interactome ####NOTE: Should this be before corum expansion?
+#blacklist = read.table(paste0(base_path, "/intermediate/rnaseq/", int_type, "_negativeFC_blacklist.txt"))
+#geneList <- interactome_genes[which(!interactome_genes %in% blacklist)]
+geneList <- interactome_genes
+
+# Create plots and permutation records
+for(mut_type in c("DNV", "LoF", "syn-DNV")){
+  
+  if(mut_type == "DNV"){cases = DNV_cases; ctrls = DNV_ctrls
+  } else if(mut_type == "LoF"){cases = LoF_cases; ctrls = LoF_ctrls
+  } else if(mut_type == "syn-DNV"){cases = DNV_case_syn; ctrls = DNV_ctrl_syn
+  }
+  
+  true_OR = get_OR(cases, ctrls, geneList, fisher = TRUE, int_type=int_type, mut_type)
+  permList <- permute_status(cases, ctrls, geneList, n_perm)
+  img = perm_viz(permList, true_OR, mut_type, int_type, n_tests=3)
+  ggsave(file= paste0(out_path, "/", int_type, "_", mut_type, ".svg"), plot = img)
+  
+  # Save out record of permutation data
+  true_row = as.data.frame(true_OR)
+  true_row$type = "true"
+  perm_rows = as.data.frame(permList)
+  perm_rows$type = "permuted"
+  names(true_row) = c("OddsRatio", "type")
+  names(perm_rows) = c("OddsRatio", "type")
+  perm_record = rbind(true_row, perm_rows)
+  
+  write.table(perm_record, 
+              file = paste0(out_path, "/perm_score_lists/", int_type, "_",mut_type,".txt"),
+              row.names = FALSE, quote = FALSE)
+  
+  
+}
+
+# # # # # # combining GATA4 WT runs # # # # # # # 
+
+int_type = "wt_gata4_combined"
+
+#### Saintq_norm ####
+tab = read.table(paste0(base_path, "/intermediate/interaction_scoring/saintq/",
+                        "wt_gata4_combined_protein_norm_true_wtcombined.txt"),
+                 sep = "\t", stringsAsFactors=F, comment.char="", header=T)
+tab_sig = subset(tab, tab$BFDR < 0.05)
+
+# Remove non-nuclear genes from interactome
+names(tab_sig)[which(names(tab_sig) == "Prey_proteinname")] <- "Prey"
+non_nuclear = read.table(paste0(base_path, "/input/databases/localization_non_nuclear_BINGO_.txt"),
+                         sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+non_nuclear = non_nuclear[which(!non_nuclear$subcellular.location == "Nucleus"),]
+tab_sig = tab_sig[which(!tab_sig$Prey %in% non_nuclear$UniprotID),]
+
+#### Corum expansion ####
+#complexes = get_comps(tab_sig$Prey,corum, enriched=FALSE)
+#complexes = get_comps(tab_sig$Prey, corum, enriched=TRUE)
+complexes = get_comps("NA", corum, enriched=TRUE)
+interactome_prots = unique(c(get_prots(complexes, corum), tab_sig$Prey))
+
+# Get gene names for interactome
+interactome_genes = quant_unimap$GeneSymbol[match(interactome_prots, quant_unimap$UniProt)]
+interactome_genes = unlist(strsplit(interactome_genes, "; "))
+write.table(interactome_genes[!is.na(interactome_genes)],
+            file = paste0(base_path, "/intermediate/interactome_lists/saintq_n/gata4_wtcombined.txt"),
+            quote = F, row.names=F, col.names = F)
+
+# Remove blacklist genes from interactome ####NOTE: Should this be before corum expansion?
+#blacklist = read.table(paste0(base_path, "/intermediate/rnaseq/", int_type, "_negativeFC_blacklist.txt"))
+#geneList <- interactome_genes[which(!interactome_genes %in% blacklist)]
+geneList <- interactome_genes
+
+# Create plots and permutation records
+for(mut_type in c("DNV", "LoF", "syn-DNV")){
+  
+  if(mut_type == "DNV"){cases = DNV_cases; ctrls = DNV_ctrls
+  } else if(mut_type == "LoF"){cases = LoF_cases; ctrls = LoF_ctrls
+  } else if(mut_type == "syn-DNV"){cases = DNV_case_syn; ctrls = DNV_ctrl_syn
+  }
+  
+  true_OR = get_OR(cases, ctrls, geneList, fisher = TRUE, int_type=int_type, mut_type)
+  permList <- permute_status(cases, ctrls, geneList, n_perm)
   img = perm_viz(permList, true_OR, mut_type, int_type, n_tests=3)
   ggsave(file= paste0(out_path, "/", int_type, "_", mut_type, ".svg"), plot = img)
   
