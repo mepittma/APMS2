@@ -5,8 +5,10 @@ base_path = "/Users/student/Documents/PollardLab/APMS2"
 ####################################################
 
 # Read in alias conversion file
-unimap = read.table(paste0(base_path, "/input/aliases/UniMap.txt"),header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-quant_unimap = read.table(paste0(base_path, "/input/aliases/combined_unimap.txt"),header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+unimap = read.table(paste0(base_path, "/input/aliases/UniMap.txt"),
+                    header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+quant_unimap = read.table(paste0(base_path, "/input/aliases/combined_unimap.txt"),
+                          header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 quant_unimap <- unique(quant_unimap)
 
 ####################################################
@@ -36,7 +38,8 @@ library(ggfortify)
 ev_subset <- ev[,c("Proteins","MS.MS.count","Experiment")]
 ev_subset$GeneName <- quant_unimap$GeneSymbol[match(ev_subset$Proteins,quant_unimap$UniProt)]
 #Aggregate by protein
-agg_sub = data.frame(matrix(NA, nrow=length(unique(ev_subset$Proteins)), ncol = length(unique(ev_subset$Experiment))))
+agg_sub = data.frame(matrix(NA, nrow=length(unique(ev_subset$Proteins)), 
+                            ncol = length(unique(ev_subset$Experiment))))
 names(agg_sub) <- unique(ev_subset$Experiment)
 row.names(agg_sub) <- unique(ev_subset$Proteins)
 for (i in c(1:nrow(ev_subset))){
@@ -68,37 +71,150 @@ write.table(rbind(ctrl,wt),
 write.table(rbind(ctrl,g296), 
             file = paste0(base_path, "/input/evidence/expTFs/g296s_gata4_evidence.txt"),
             sep = "\t", row.names = F, quote = F)
+write.table(rbind(wt,g296),
+            file = paste0(base_path, "/input/evidence/expTFs/g296s_vs_wt_evidence.txt"),
+            sep = "\t", row.names = F, quote = F)
 
 ####################################################
 # Run quantification
 ####################################################
 # APMS data for the three interactomes
-for (int_type in c("old_gata4", "wt_gata4", "g296s_gata4")){
+for (run_type in c("gained", "lost")){
   
-  ev_file = paste0(base_path, "/input/evidence/expTFs/", int_type, "_evidence.txt")
+  int_type = paste0("g296s_vs_wt_",run_type)
+  
+  ev_file = paste0(base_path, "/input/evidence/expTFs/g296s_vs_wt_evidence.txt")
   key_file= paste0(base_path, "/input/evidence/expTFs/keys_", int_type,".txt")
   
   # Creates files necessary to run FC, saintq, and saint analysis - uncomment if these files do not exist
   #create_artMSfiles(int_type, key_file)
+  #dir.create(paste0(base_path, "/intermediate/MS_QC/", int_type, "_msspc"))
   #setwd(paste0(base_path, "/intermediate/MS_QC/", int_type, "_msspc"))
   #run_artMS(int_type, ev_file, key_file, "msspc")
+  
+  #dir.create(paste0(base_path, "/intermediate/MS_QC/", int_type, "_msint"))
   #setwd(paste0(base_path, "/intermediate/MS_QC/", int_type, "_msint"))
   #run_artMS(int_type, ev_file, key_file, "msint")
   
   # Run saintq with all possible parameter files 
   for(level in c("peptide", "protein")){
     
-    setwd(paste0(base_path, "/input/evidence/interdependence/saintq_inputs/", int_type))
-    in_file = paste0("saintq_input_", level, "s.txt")
+    #setwd(paste0(base_path, "/input/evidence/interdependence/saintq_inputs/", int_type))
+    #in_file = paste0("saintq_input_", level, "s.txt")
     
     normYN = "true"
-    param_out = paste0( level, "_norm", normYN, ".txt")
-    write_params(normYN, in_file, level, param_out)
-    out_file = paste0(base_path, "/intermediate/interaction_scoring/saintq/", int_type, "_", level, "_norm_", normYN, ".txt")
-    run_saintq(paste0(base_path, "/input/evidence/interdependence/saintq_inputs/", int_type), param_out, in_file, out_file)
+    #param_out = paste0( level, "_norm", normYN, ".txt")
+    #write_params(normYN, in_file, level, param_out)
+    out_file = paste0(base_path, "/intermediate/interaction_scoring/saintq/", 
+                      int_type, "_", level, "_norm_", normYN, ".txt")
+    #run_saintq(paste0(base_path, "/input/evidence/interdependence/saintq_inputs/", 
+    #int_type), param_out, in_file, out_file)
     
+    # Merge analysis files and density information
+    ev = read.table(paste0(ev_file),
+                    sep = "\t", header = T, stringsAsFactors = FALSE)
+    
+    wt = ev[which(grepl("wt_g",ev$Experiment)),c("Proteins","Intensity")]
+    g296 = ev[which(grepl("296",ev$Experiment)),c("Proteins","Intensity")]
+    gene_lookup <- unique(ev[,c("Proteins","Gene.names")])
+    
+    df_names = c("wt", "g296s")
+    
+    for (i in c(1,2)){
+      
+      if(i==1){
+        df = wt
+      }else{
+        df = g296
+      }
+      df_name = df_names[i]
+      
+      # Remove lines of NA
+      df <- df[!is.na(df$Intensity),]
+      
+      # Deconvolute complexes
+      s <- strsplit(df$Proteins, split=";")
+      df_ <- data.frame(Proteins = unlist(s), Intensity = rep(df$Intensity, sapply(s, length)))
+      ag = aggregate(df_[,"Intensity"], list(df_$Proteins), mean)
+      names(ag) <- c("Protein", paste0("Intensity_",df_name))
+      
+      # Merge with saintq analysis file
+      saintq = read.table(out_file, stringsAsFactors=F, comment.char="", header=T)
+      out = merge(saintq, ag, by.x = 'Prey', by.y = 'Protein', all.x=T)
+      assign(paste0("out_",df_name), out)
+    }
+    # merge intensity columns & sort ascending by BFDR
+    merged = merge(out_wt, out_g296s[,c("Prey","Intensity_g296s")], by = "Prey", all=T)
+    merged$GeneNames <- gene_lookup$Gene.names[match(merged$Prey, gene_lookup$Proteins)]
+    merged <- merged[order(merged$BFDR),] 
+    merged$GeneNames[which(merged$Prey == "P68363")] <- "TUBA1B"
+    
+    # write out and save
+    write.table(merged, 
+                file =paste0(base_path, "/intermediate/interaction_scoring/saintq/", 
+                             int_type, "_", level, "_mergedIntensities.txt"),
+                sep = "\t", row.names = F, quote=F)
+
   }
   
+}
+
+# Create merged intensity files for regular interactomes
+# APMS data for the three interactomes
+for (int_type in c("GATA4", "TBX5", "NKX25")){
+  
+  if(int_type=="GATA4"){
+    level="protein"
+  } else{
+    level="peptide"
+    }
+
+  ev_file = paste0(base_path, "/input/evidence/expTFs/",int_type,"_evidence.txt")
+  out_file = paste0(base_path, "/intermediate/interaction_scoring/saintq/", 
+                    int_type, "_", level, "_norm_true.txt")
+  
+  ev = read.table(ev_file, sep = "\t", header = T, stringsAsFactors = FALSE)
+  
+  ko = ev[which(grepl("KO||Cont",ev$Experiment)),c("Proteins","Intensity")]
+  wt = ev[which(!grepl("KO|Cont",ev$Experiment)),c("Proteins","Intensity")]
+  gene_lookup <- unique(ev[,c("Proteins","Gene.names")])
+    
+  df_names = c("KO", "WT")
+    
+  for (i in c(1,2)){
+      
+    if(i==1){
+      df = ko
+    }else{
+      df = wt
+    }
+    df_name = df_names[i]
+      
+    # Remove lines of NA
+    df <- df[!is.na(df$Intensity),]
+      
+    # Deconvolute complexes
+    s <- strsplit(df$Proteins, split=";")
+    df_ <- data.frame(Proteins = unlist(s), Intensity = rep(df$Intensity, sapply(s, length)))
+    ag = aggregate(df_[,"Intensity"], list(df_$Proteins), mean)
+    names(ag) <- c("Protein", paste0("Intensity_",df_name))
+      
+    # Merge with saintq analysis file
+    saintq = read.table(out_file, stringsAsFactors=F, comment.char="", header=T)
+    out = merge(saintq, ag, by.x = 'Prey', by.y = 'Protein', all.x=T)
+    assign(paste0("out_",df_name), out)
+  }
+  # merge intensity columns & sort ascending by BFDR
+  merged = merge(out_KO, out_WT[,c("Prey","Intensity_WT")], by = "Prey", all=T)
+  merged$GeneNames <- gene_lookup$Gene.names[match(merged$Prey, gene_lookup$Proteins)]
+  merged <- merged[order(merged$BFDR),] 
+  merged$GeneNames[which(merged$Prey == "P68363")] <- "TUBA1B"
+    
+  # write out and save
+  write.table(merged, file =paste0(base_path, "/intermediate/interaction_scoring/saintq/", 
+                             int_type, "_mergedIntensities.txt"),
+                sep = "\t", row.names = F, quote=F)
+    
 }
 
 ####################################################
@@ -114,7 +230,8 @@ old_gata4 = read.table(paste0(base_path,
 old_gata4_interactors = old_gata4$Prey[which(old_gata4$BFDR < 0.001)]
 
 # Confirm that these are the same as the old experiments
-confirm = read.table(file = paste0(base_path, "/intermediate/interaction_scoring/saintq/GATA4_protein_norm_true.txt"), 
+confirm = read.table(file = paste0(base_path, 
+                                   "/intermediate/interaction_scoring/saintq/GATA4_protein_norm_true.txt"), 
                  sep = "\t", stringsAsFactors = FALSE, fill = TRUE, header = TRUE, comment.char = "")
 confirm_interactors = confirm$Prey[which(confirm$BFDR < 0.001)]
 different = c(confirm_interactors[!confirm_interactors %in% old_gata4_interactors],
@@ -139,7 +256,7 @@ lost = old_gata4_interactors[!old_gata4_interactors %in% wt_gata4_interactors] #
 new = wt_gata4_interactors[!wt_gata4_interactors %in% old_gata4_interactors] #40 proteins!
 lost = confirm_interactors[!confirm_interactors %in% wt_gata4_interactors] #204 proteins!
 new = wt_gata4_interactors[!wt_gata4_interactors %in% confirm_interactors] #40 proteins!
-common = intersect(wt_gata4_interactors, old_gata4_interactors) # only 30...39 when threshold is relaxed to 0.05
+common = intersect(wt_gata4_interactors, old_gata4_interactors) # only 30...
 # Should I test the permutation using the overlapping variants?
 
 # Read in the input_proteins files to understand what is different between these experiments
@@ -147,7 +264,7 @@ new_input = read.table(paste0(base_path,
                       "/input/evidence/interdependence/saintq_inputs/wt_gata4/saintq_input_proteins.txt"),
                        sep = "\t", stringsAsFactors=F, comment.char="", skip=2, header = T)
 old_input = read.table(paste0(base_path, 
-                              "/input/evidence/interdependence/saintq_inputs/old_gata4/saintq_input_proteins.txt"),
+                      "/input/evidence/interdependence/saintq_inputs/old_gata4/saintq_input_proteins.txt"),
                        sep = "\t", stringsAsFactors=F, comment.char="", skip=2, header = T)
 names(old_input)[1:5] <- c("Proteins","Sequence","wt.1","wt.2","wt.3")
 
@@ -197,8 +314,10 @@ for(level in c("peptide", "protein")){
   normYN = "true"
   param_out = paste0( level, "_norm", normYN, ".txt")
   write_params(normYN, in_file, level, param_out)
-  out_file = paste0(base_path, "/intermediate/interaction_scoring/saintq/", int_type, "_", level, "_norm_", normYN, "_wtcombined.txt")
-  run_saintq(paste0(base_path, "/input/evidence/interdependence/saintq_inputs/", int_type), param_out, in_file, out_file)
+  out_file = paste0(base_path, "/intermediate/interaction_scoring/saintq/", 
+                    int_type, "_", level, "_norm_", normYN, "_wtcombined.txt")
+  run_saintq(paste0(base_path, "/input/evidence/interdependence/saintq_inputs/", int_type), 
+             param_out, in_file, out_file)
   
 }
 

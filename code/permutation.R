@@ -9,7 +9,8 @@ base_path = "/Users/student/Documents/PollardLab/APMS2"
 #out_path = paste0(base_path, "/output/permutations/saintq_n_unexpanded")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_unexpanded_G001_T05_N1")
 #out_path = paste0(base_path, "/output/permutations/conference_figs")
-out_path = paste0(base_path, "/output/permutations/g296s")
+#out_path = paste0(base_path, "/output/permutations/g296s")
+out_path = paste0(base_path, "/output/july22_test")
 
 library(ggplot2)
 source(paste0(base_path, "/code/functions/permutation_functions.R"))
@@ -135,7 +136,7 @@ tab_sigG = subset(tabG, tabG$BFDR < 0.001)
 #tab_sigG = subset(tabG, tabG$BFDR < 0.05)
 tab_sigT = subset(tabT, tabT$BFDR < 0.05)
 cols = c("Bait", "Prey", "BFDR")
-tab_sig = rbind(tabG[,cols], tabT[,cols])
+tab_sig = rbind(tab_sigG[,cols], tab_sigT[,cols])
 
 # Remove non-nuclear genes from interactome
 names(tab_sig)[which(names(tab_sig) == "Prey_proteinname")] <- "Prey"
