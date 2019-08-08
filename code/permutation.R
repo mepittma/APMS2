@@ -3,14 +3,14 @@ base_path = "/Users/student/Documents/PollardLab/APMS2"
 #out_path = paste0(base_path, "/output/permutations/saintq_n")
 #out_path = paste0(base_path, "/output/permutations/original")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_cutoff_G02_T02_N1")
-#out_path = paste0(base_path, "/output/permutations/saintq_n_cutoff_G001_T05_N1")
+out_path = paste0(base_path, "/output/permutations/saintq_n_cutoff_G001_T05_N1")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_enrichedComp")
 #out_path = paste0(base_path, "/output/permutations/original_enrichedComp")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_unexpanded")
 #out_path = paste0(base_path, "/output/permutations/saintq_n_unexpanded_G001_T05_N1")
 #out_path = paste0(base_path, "/output/permutations/conference_figs")
 #out_path = paste0(base_path, "/output/permutations/g296s")
-out_path = paste0(base_path, "/output/july22_test")
+#out_path = paste0(base_path, "/output/july22_test")
 
 library(ggplot2)
 source(paste0(base_path, "/code/functions/permutation_functions.R"))
@@ -81,7 +81,7 @@ for(int_type in c("GATA4", "NKX25", "TBX5")){
   interactome_genes = unlist(strsplit(interactome_genes, "; "))
   
   # Remove blacklist genes from interactome ####NOTE: Should this be before corum expansion?
-  blacklist = read.table(paste0(base_path, "/intermediate/rnaseq/", int_type, "_negativeFC_blacklist.txt"))
+  blacklist = read.table(paste0(base_path, "/intermediate/rnaseq/", int_type, "_exprLessInKO_morePepInKO.txt"))
   geneList <- interactome_genes[which(!interactome_genes %in% blacklist)]
   
   # Create plots and permutation records

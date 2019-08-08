@@ -19,84 +19,105 @@ library("tidyr")
 library("tibble")
 
 rnaseq = read.csv(paste0(base_path,"/input/rnaseq/DifferentialExpressionResults_koStudy_Sigma.csv"))
-int_type = "GATA4"
-level = "protein"
+
+for (int_type in c("GATA4","TBX5")){
   
-# Step 1: Deconvolute protein complexes
-ev_file = paste0(base_path, "/input/evidence/expTFs/",int_type,"_evidence.txt")
+  # Step 1: Deconvolute protein complexes
+  ev_file = paste0(base_path, "/input/evidence/expTFs/",int_type,"_evidence.txt")
   
-ev = read.table(ev_file, sep = "\t", header = T, stringsAsFactors = FALSE)
-s <- strsplit(ev$Proteins, split=";")
-df_ <- data.frame(Proteins = unlist(s), Intensity = rep(ev$Intensity, sapply(s, length)), 
-                  Experiment = rep(ev$Experiment, sapply(s, length)), stringsAsFactors = F)
-mut_df = rowid_to_column(df_)
-mdf = mut_df %>% spread(Experiment,Intensity)
-mdf = aggregate(mdf[,c(3:ncol(mdf))], by=list(Proteins=mdf$Proteins), FUN=sum, na.rm=T)
-mdf[mdf == 0] <- NA
-
-mko = mdf[,c("Proteins",names(mdf)[which(grepl("KO|Cont", names(mdf)))])]
-mwt = mdf[,c(names(mdf)[which(!grepl("KO|Cont", names(mdf)))])]
-
-gene_lookup <- unique(ev[,c("Proteins","Gene.names")])
-
-
-
-# Step 2: If there are rows with all NA, replace with 90% min observed in each control run
-min_list = c()
-for (i in c(2:ncol(mko))){
-  min_list = c(min_list, min(mko[,i][!is.na(mko[,i])]))
-}
-min_list = 0.9 * min_list
-
-# This is the hackiest shit I've ever written
-for (i in c(1:nrow(mko))){
-  if (is.na(mko[i,2])){
-    if (is.na(mko[i,3])){
-      if (is.na(mko[i,4])){
-        if (is.na(mko[i, ncol(mko)])){
-          mko[i,] = c(mko[i,1],min_list)
+  ev = read.table(ev_file, sep = "\t", header = T, stringsAsFactors = FALSE)
+  s <- strsplit(ev$Proteins, split=";")
+  df_ <- data.frame(Proteins = unlist(s), Intensity = rep(ev$Intensity, sapply(s, length)), 
+                    Experiment = rep(ev$Experiment, sapply(s, length)), stringsAsFactors = F)
+  mut_df = rowid_to_column(df_)
+  mdf = mut_df %>% spread(Experiment,Intensity)
+  mdf = aggregate(mdf[,c(3:ncol(mdf))], by=list(Proteins=mdf$Proteins), FUN=sum, na.rm=T)
+  mdf[mdf == 0] <- NA
+  
+  mko = mdf[,c("Proteins",names(mdf)[which(grepl("KO|Cont", names(mdf)))])]
+  mwt = mdf[,c(names(mdf)[which(!grepl("KO|Cont", names(mdf)))])]
+  
+  gene_lookup <- unique(ev[,c("Proteins","Gene.names")])
+  
+  # Step 2: If there are rows with all NA, replace with 90% min observed in each control run
+  min_list = c()
+  for (i in c(2:ncol(mko))){
+    min_list = c(min_list, min(mko[,i][!is.na(mko[,i])]))
+  }
+  min_list = 0.9 * min_list
+  
+  # This is the hackiest shit I've ever written
+  for (i in c(1:nrow(mko))){
+    if (is.na(mko[i,2])){
+      if (is.na(mko[i,3])){
+        if (is.na(mko[i,4])){
+          if (is.na(mko[i, ncol(mko)])){
+            mko[i,] = c(mko[i,1],min_list)
+          }
         }
       }
     }
   }
+  mko[which(mko$Proteins == "P43694"),]
+  mko[which(mko$Proteins == "Q99593"),]
+  
+  # Step 3: if there is at least one prey protein/peptide intensity, replace with 90% min-observed in that protein
+  for (i in c(1:nrow(mko))){
+    min_val = 0.9 * as.numeric(min(mko[i,2:ncol(mko)][!is.na(mko[i,2:ncol(mko)])]))
+    mko[i,][is.na(mko[i,])] <- min_val
+  }
+  
+  # Step 4: normalize so that the average total intensity across all bait purifications is the same as 
+  # the average total intensity in the controls
+  mko$MeanIntensity = 0
+  for (i in c(1:nrow(mko))){
+    mko$MeanIntensity[i] = mean(as.numeric(mko[i,c(2:(ncol(mko)-1))]))
+  }
+  ctrl_mean = mean(mko$MeanIntensity)
+  
+  mwt$MeanIntensity = 0
+  for (i in c(1:nrow(mwt))){
+    mwt$MeanIntensity[i] = mean(as.numeric(mwt[i,c(2:(ncol(mwt)-1))]), na.rm = T)
+  }
+  bait_mean = mean(mwt$MeanIntensity, na.rm=T)
+
+  factr = ctrl_mean/bait_mean #ctrl measurements are about half of the wt bait measurements
+  mwt$wt_NormalizedIntensity = mwt$MeanIntensity * factr
+  mwt$wt_NormalizedIntensity[is.na(mwt$wt_NormalizedIntensity)] <- 1 #add a pseudocount of 1
+  
+  
+  # Step 5: Compare logFC between WT and control
+  gene_lookup <- unique(ev[,c("Proteins","Gene.names")])
+  
+  if (int_type == "GATA4"){
+    KO_colname = "logFC.TreatmentGKO"
+  } else if (int_type == "TBX5"){
+    KO_colname = "logFC.TreatmentTKO"
+  }
+  
+  norm_intensities = as.data.frame(cbind(mko$Proteins, mko$MeanIntensity, mwt$wt_NormalizedIntensity[match(mko$Proteins, mwt$Proteins)]), stringsAsFactors = F)
+  names(norm_intensities) = c("Proteins","KO_Intensity","WT_Intensity")
+  norm_intensities$GeneName = gene_lookup$Gene.names[match(norm_intensities$Proteins, gene_lookup$Proteins)]
+  norm_intensities$logFC_intensity = log2(as.numeric(as.character(norm_intensities$KO_Intensity))/as.numeric(as.character(norm_intensities$WT_Intensity)))
+  
+  norm_intensities$logFC_rnaseq = rnaseq[,KO_colname][match(norm_intensities$GeneName, rnaseq$hgnc_symbol)]
+  norm_intensities$FDR_rnaseq = rnaseq$FDR[match(norm_intensities$GeneName, rnaseq$hgnc_symbol)]
+  
+  # Integrate with saintq analysis results
+  ints = read.csv(paste0(base_path, "/intermediate/interactome_lists/saintq_n/combined_APMS_interactome_G001_T05_N1.csv"))
+  int_data = ints[which(ints$Bait == int_type),]
+  norm_intensities$saintq_BFDR = int_data$BFDR[match(norm_intensities$Proteins, int_data$Prey)]
+  
+  # Establish blacklist based on whether the rnaseq logFC is < -1 and significant; also on whether 
+  # A positive log2(KO/WT) of intensity indicates that there was more protein pulled down in the KO than the WT.
+  # A negative logFC rnaseq value indicates that there was more expression of that protein in the WT vs KO.
+  BL = norm_intensities[which(norm_intensities$logFC_intensity > -0.5 & norm_intensities$logFC_rnaseq < -1),"GeneName"]
+  write.table(BL, file = paste0(base_path, "/intermediate/rnaseq/", int_type, "_exprLessInKO_morePepInKO.txt"),
+              row.names = F, col.names = F, quote = F)
 }
-mko[which(mko$Proteins == "P43694"),]
 
-# Step 3: if there is at least one prey protein/peptide intensity, replace with 90% min-observed in that protein
-for (i in c(1:nrow(mko))){
-  min_val = 0.9 * as.numeric(min(mko[i,2:ncol(mko)][!is.na(mko[i,2:ncol(mko)])]))
-  mko[i,][is.na(mko[i,])] <- min_val
-}
 
-# Step 4: normalize so that the average total intensity across all bait purifications is the same as 
-# the average total intensity in the controls
-mko$MeanIntensity = 0
-for (i in c(1:nrow(mko))){
-  mko$MeanIntensity[i] = mean(as.numeric(mko[i,c(2:(ncol(mko)-1))]))
-}
-ctrl_mean = mean(mko$MeanIntensity)
 
-mwt$MeanIntensity = 0
-for (i in c(1:nrow(mwt))){
-  mwt$MeanIntensity[i] = mean(as.numeric(mwt[i,c(2:(ncol(mwt)-1))]), na.rm = T)
-}
-bait_mean = mean(mwt$MeanIntensity, na.rm=T)
-
-# Coerce averages to be the same across all bait/all ctrl
-factr = ctrl_mean/bait_mean #ctrl measurements are about half of the wt bait measurements
-mwt$wt_NormalizedIntensity = mwt$MeanIntensity * factr
-mwt$wt_NormalizedIntensity[is.na(mwt$wt_NormalizedIntensity)] <- 1 #add a pseudocount of 1
-
-# Compare logFC between the two
-gene_lookup <- unique(ev[,c("Proteins","Gene.names")])
-
-norm_intensities = as.data.frame(cbind(mko$Proteins, mko$MeanIntensity, mwt$wt_NormalizedIntensity[match(mko$Proteins, mwt$Proteins)]), stringsAsFactors = F)
-names(norm_intensities) = c("Proteins","KO_Intensity","WT_Intensity")
-norm_intensities$GeneName = gene_lookup$Gene.names[match(norm_intensities$Proteins, gene_lookup$Proteins)]
-norm_intensities$logFC_intensity = log2(as.numeric(as.character(norm_intensities$KO_Intensity))/as.numeric(as.character(norm_intensities$WT_Intensity)))
-
-norm_intensities$logFC_rnaseq = rnaseq$logFC.TreatmentGKO[match(norm_intensities$GeneName, rnaseq$hgnc_symbol)]
-norm_intensities$FDR_rnaseq = rnaseq$FDR[match(norm_intensities$GeneName, rnaseq$hgnc_symbol)]
 
 # # # # # # # 
 # Compare for blacklist items

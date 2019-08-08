@@ -162,7 +162,7 @@ gd = merge(gene_data, CADD[,c('CHR','POS','REF','ALT','CADD')], by = c("CHR","PO
 ######################## Step 6: Binary - other mutations, known protein domain, CHD pathway ########################
 
 # Determine if that person has another mutation - 0 for yes, 1 for no
-#### NOTE: This includes whether the variant itself occurs in a known gene
+#### NOTE: This DOES NOT include whether the variant itself occurs in a known gene
 known = read.table(paste0(base_path, "/input/databases/known_genes.txt"), stringsAsFactors = F)
 known_genes = known$V1
 cols <- c("Blinded.ID", "Cardiac.Category", "EM", "NDD", "CHR", "POS", "REF", "ALT", "Gene","pLI.Score")
@@ -171,10 +171,15 @@ all_muts <- rbind(DNV_cases[,cols], LoF_cases[,cols])
 gd$no_known_muts = 1
 for (i in c(1:nrow(gd))){
   muts = all_muts[which(all_muts$Blinded.ID == gd$Blinded.ID[i]),]
+  muts = muts[which(!(muts$CHR == gd$CHR[i] & muts$POS == gd$POS[i])),] # don't include the variant itself
   if (any(muts$Gene %in% known_genes)){
     gd$no_known_muts[i] = 0
   }
 }
+
+# Column to state whether the gene the variant is in is known or not
+gd$known_gene = "unknown"
+gd$known_gene[which(gd$Gene %in% known_genes)] <- "known"
 
 # Determine if this occurs in a known protein domain
 ###### OR is a lof variant - we expect these proteins to not do their job #######
@@ -189,46 +194,12 @@ gene_data$protein_domain_or_lof[which(gene_data$Variant.Class %in% c("non","fram
                                                                      "stoploss"))] <- 1
 
 # Determine if this occurs in a pathway enriched for known CHD genes
-
-# Edit reactome file if necessary
-# NOTE: Line 113879 was somehow corrupted; it contains no human pathways, so I did not correct it.
-react = read.table(paste0(base_path, "/input/databases/reactome.txt"), 
-                   sep = "\t", stringsAsFactors = F, comment.char = "")
-react <- react[which(react$V6 == "Homo sapiens"), c('V1','V2','V4','V6')]
-names(react) <- c("UniProtID","PathID","PathName","Species")
-
-# Gene to UP accession file
-conv = read.table(paste0(base_path, "/input/aliases/reactome_unimap.txt"), 
-                  sep = "\t", header = T, stringsAsFactors = F)
-s <- strsplit(conv$UniProt.Accession, split = "; ")
-gene2UP = data.frame(GeneSymbol = rep(conv$Gene.Symbol, sapply(s, length)), UniProt = unlist(s))
-
-# For each reactome pathway, calculate significance of enrichment for known genes
-react$enrichment_p = ">0.05"
-total_prots = unique(react$UniProtID)
-sig_paths = c()
-n_paths = length(unique(react$PathID))
-for (react_ID in unique(react$PathID)){
-  fish = get_path_fisher(known_genes, react_ID, react, total_prots, gene2UP)
-  if (fish <= 0.05){
-    react$enrichment_p[which(react$PathID == react_ID)] <- unlist(fish)
-    sig_paths = c(sig_paths, react_ID)
-  }
-}
-
-# Examine significantly-enriched pathways; if necessary, save out uniprot IDs in those pathways
-check <- react[which(react$enrichment_p != ">0.05"),c("UniProtID","PathID","PathName","enrichment_p")]
-#write.table(unique(check$UniProtID), file = paste0(base_path, "/input/aliases/sig_reactome_prots.txt"),
-#            row.names = F, col.names = F, quote = F)
-check$Gene = quant_unimap$GeneSymbol[match(check$UniProtID, quant_unimap$UniProt)]
-
-# Write out info to examine
-write.csv(check, file = paste0(base_path, "/intermediate/enriched_pathway_info.csv"), row.names = F, quote = F)
-
-# If the gene is in an enriched pathway, pathway = 1; else, pathway = 0.5
-### NOTE: None of the DNVs are in enriched pathways....alternative to consider all pathways, not just enriched??
+enriched_paths = read.csv(paste0(base_path, "/intermediate/InnateDB_sig_paths.csv"), stringsAsFactors = F)
+enriched_paths = enriched_paths[which(enriched_paths$SourceDatabase %in% c("REACTOME", "PID BIOCARTA")),]
+path2gene = read.csv(paste0(base_path, "/intermediate/path2gene_table.csv"), stringsAsFactors = F)
+path_genes = path2gene[which(path2gene$Pathway.Name %in% enriched_paths$PathwayName),]
 gene_data$enriched_path = 0.5
-gene_data$enriched_path[which(gene_data$Gene %in% check$Gene)] <- 1
+gene_data$enriched_path[which(gene_data$Gene %in% path_genes$Query.Xref)] <- 1
 
 
 ######################## Step 7: Connectivity degrees - interactome, known CHD genes ########################
@@ -321,18 +292,18 @@ rank_data$rank_sum =rowSums(rank_data[,c("mutperkb_rank","specificity_score_rank
                                           "pLI_gnomAD_rank")])
 
 # Save out rank order before removing known genes
-gd <- rank_data[,c('CHR','POS','REF','ALT','Gene','Blinded.ID','Cardiac.Category','NDD',"CADD","phyloP","pLI_gnomAD",
+gd <- rank_data[,c('CHR','POS','REF','ALT','Gene','Variant.Class','Blinded.ID','Cardiac.Category','NDD',"CADD","phyloP","pLI_gnomAD",
                    "oe","mutperkb","specificity_score", "interactome_node_degree","known_chd_node_degree",
-                   "no_known_muts","protein_domain_or_lof", "enriched_path","rank_sum")]
+                   "no_known_muts","known_gene","protein_domain_or_lof", "enriched_path","rank_sum")]
 f1 <- gd[order(-gd$rank_sum),]
 
 rank_data$binary_multiplied = rank_data$rank_sum * 
   rank_data$no_known_muts * rank_data$protein_domain_or_lof * rank_data$enriched_path
 
 # Save out desired columns
-gd <- rank_data[,c('CHR','POS','REF','ALT','Gene','Blinded.ID','Cardiac.Category','NDD',"CADD","phyloP","pLI_gnomAD",
+gd <- rank_data[,c('CHR','POS','REF','ALT','Gene','Variant.Class','Blinded.ID','Cardiac.Category','NDD',"CADD","phyloP","pLI_gnomAD",
                    "oe","mutperkb","specificity_score", "interactome_node_degree","known_chd_node_degree",
-                   "no_known_muts","protein_domain_or_lof", "enriched_path","rank_sum","binary_multiplied")]
+                   "no_known_muts","known_gene","protein_domain_or_lof", "enriched_path","rank_sum","binary_multiplied")]
 f2 <- gd[order(-gd$binary_multiplied),]
 
 
@@ -341,170 +312,4 @@ write.csv(f1, paste0(base_path, "/output/pathogenicity_scoring/saintq_n/GATA4-TB
           quote=F, row.names = F)
 write.csv(f2, paste0(base_path, "/output/pathogenicity_scoring/saintq_n/GATA4-TBX5_interactors_binary_multiplied.csv"),
           quote=F, row.names = F)
-
-
-# # # # # # OLD # # # # # # 
-
-  ######################## Step 6: Combine scores and sorts ########################
-  
-  # Replace missing pLI with median)
-  median_pLI = median(as.numeric(gene_data$pLI.Score[!is.na(gene_data$pLI.Score)]))
-  gene_data$pLI.Score[is.na(gene_data$pLI.Score)] <- median_pLI
-  
-  # Add pseudocount to pLI
-  gene_data$pLI.Score[which(as.numeric(gene_data$pLI.Score) == 0)] <- min(
-    as.numeric(gene_data$pLI.Score[which(as.numeric(gene_data$pLI.Score) != 0)]))/2
-  
-  # Reduce dataframe
-  numerical_data = as.data.frame(
-    gene_data[,c("pLI.Score","norm_mutperkb","specificity_score","phyloP","scaled.CADD")])
-  df2 <- mutate_all(numerical_data, function(x) as.numeric(as.character(x)))
-  df2$mult_score = apply(df2, 1, prod)
-  df2$add_score = rowSums(df2[,c(1:5)])
-  
-  final <- cbind(gene_data[,c("Gene","Blinded.ID","Cardiac.Category","NDD", "CHR","POS", "REF", "ALT")], df2)
-  final_mult <- final[order(-final$mult_score),]
-  final_add <- final[order(-final$add_score),]
-  
-  ofile = paste0(base_path, "/output/pathogenicity_scoring/", analysis_type, 
-                 "/all_interactomes_median_permuted_scores_G001_T05_N1.csv")
-  
-  
-  write.csv(final_mult, ofile,
-            quote = FALSE, row.names = FALSE)
-  
-  # Create a file that instead uses ranks
-  final$pLI.rank = rank(final$pLI.Score)
-  final$mutperkb.rank = rank(final$norm_mutperkb)
-  final$specificity.rank = rank(final$specificity_score)
-  final$phyloP.rank = rank(final$phyloP)
-  final$CADD.rank = rank(final$scaled.CADD)
-  
-  # lower rank = lower number
-  # highest numbers are most interesting
-  final$AddedRank = rowSums(final[,c("pLI.rank", "mutperkb.rank", "specificity.rank", "phyloP.rank", "CADD.rank")])
-  final_rank <- final[order(-final$AddedRank),c("Gene","Blinded.ID","Cardiac.Category","NDD", "CHR","POS", 
-                                                "REF", "ALT",
-                                                "pLI.rank", "mutperkb.rank", "specificity.rank", "phyloP.rank", 
-                                                "CADD.rank",
-                                                "AddedRank")]
-  ofile = paste0(base_path, "/output/pathogenicity_scoring/", analysis_type, 
-                 "/all_interactomes_ranked_G001_T05_N1.csv")
-  
-  write.csv(final, ofile, quote = FALSE, row.names = FALSE)
-  
-  ######################## GATA4/TBX5 only ########################
-  
-  spec_genes = unique(ints$Prey_genename[which(ints$Bait == "GATA4" | ints$Bait == "TBX5")])
-  GATAs = final_mult[which(final_mult$Gene %in% spec_genes),]
-  
-  ofile = paste0(base_path, "/output/pathogenicity_scoring/",analysis_type, 
-                 "/GATA4-TBX5_interactomes_median_permuted_scores_G001_T05.csv")
-  write.csv(GATAs, ofile, quote = FALSE, row.names = FALSE)
-  
-  # For ranked scores
-  GATAs = final[which(final_mult$Gene %in% spec_genes),]
-  ofile = paste0(base_path, "/output/pathogenicity_scoring/",analysis_type, 
-                 "/GATA4-TBX5_interactomes_ranked_G001_T05.csv")
-  write.csv(GATAs, ofile,quote = FALSE, row.names = FALSE)
-  
-  ######################## Nearby variants? ########################
-  res = c()
-  for(chr in c(1:22, "X")){
-    var_list = final_mult[which(final_mult$CHR == chr),]
-    if(nrow(var_list) > 1){
-      
-      # Sort numerically
-      coords = sort(as.numeric(var_list$POS))
-      genes = var_list[match(coords, var_list$POS),]
-      
-      # Check whether any mutations next to each other are within 800bp in either direction
-      #### This is janky and assumes that each variant has a position not shared on any other chromosome
-      for (i in c(1:(length(coords)-1))){
-        if(coords[i] - coords[i+1] <= 800 && coords[i] - coords[i+1] >= -800){
-          success= paste0("Nearby variants! chr", chr, ":", coords[i], ",", coords[i+1],
-                          " in gene ", genes[i,"Gene"])
-          print(success)
-          res = c(res, coords[i], coords[i+1])
-        }
-      }
-    }
-  }
-  
-  domain = final_mult[which(final_mult$POS %in% res),]
-  domain = domain[order(domain$Gene, domain$mult_score),]
-  ofile = paste0(base_path, "/output/pathogenicity_scoring/",
-                 analysis_type,"/nearby_variants_G001_T05_N1.csv")
-  write.csv(domain, file = ofile,
-            row.names = FALSE, quote = FALSE)
-  
-}
-
-
-
-### Step 1.5: save out a file that includes interactome data for all variants
-cols <- c("Gene","pLI.Score", "type")
-DNV_cases$type = "DNV"
-LoF_cases$type = "LoF"
-rec_cases$type = "recessive"
-
-
-for(analysis_type in c("saintq_n", "original")){
-  ints = read.table(paste0(base_path, "/intermediate/interactome_lists/",
-                           analysis_type,"/combined_APMS_interactome_G001_T05_N1.csv"),
-                         sep = ",", header = TRUE, stringsAsFactors = FALSE)
-  ints = ints[,c("Bait","Prey","Prey_genename","BFDR")]
-  
-  mut_data <- rbind(DNV_cases[,cols], LoF_cases[,cols], rec_cases[,cols])
-  mut_data = mut_data[which(mut_data$Gene %in% ints$Prey_genename),]
-  counts = as.matrix(table(mut_data$Gene, mut_data$type))
-  cdf = as.data.frame(cbind(row.names(counts),counts[,c(1:3)]))
-  cdf$pLI.score = mut_data$pLI.Score[match(cdf$V1, mut_data$Gene)]
-  
-  # Connect to baits in interactome scoring
-  counts = cdf
-  counts$GATA4 = 0
-  counts$TBX5 = 0
-  counts$NKX25 = 0
-  
-  GATA4_genes = unlist(strsplit(ints$Prey_genename[which(ints$Bait == "GATA4")], "; "))
-  TBX5_genes = unlist(strsplit(ints$Prey_genename[which(ints$Bait == "TBX5")], "; "))
-  NKX25_genes = unlist(strsplit(ints$Prey_genename[which(ints$Bait == "NKX25")], "; "))
-  
-  for (i in c(1:nrow(counts))){
-    if(counts$V1[i] %in% GATA4_genes){
-      counts$GATA4[i] = 1
-    }
-    if(counts$V1[i] %in% TBX5_genes){
-      counts$TBX5[i] = 1
-    }
-    if(counts$V1[i] %in% NKX25_genes){
-      counts$NKX25[i] = 1
-    }
-  }
-  
-  names(counts)[1] = "Gene"
-  write.csv(counts, file = paste0(base_path, "/output/pathogenicity_scoring/", analysis_type, 
-                                  "/variant_count_G001_T05_n1.csv"))
-}
-
-# Filter to only include DNVs
-for (analysis_type in c("original", "saintq_n")){
-  outpath = paste0(base_path, "/output/pathogenicity_scoring/", analysis_type)
-  f1 = "/all_interactomes_median_permuted_scores_G001_T05_N1.csv"
-  f2 = "/GATA4-TBX5_interactomes_median_permuted_scores_G001_T05.csv"
-  f3 = "/nearby_variants_G001_T05_N1.csv"
-  f4 = "/variant_count_G001_T05_n1.csv"
-  f5 = "/all_interactomes_ranked_G001_T05_N1.csv"
-  f6 = "/GATA4-TBX5_interactomes_ranked_G001_T05.csv"
-  
-  for(infile in c(f1, f2, f3, f4, f5, f6)){
-    tab = read.csv(paste0(outpath, infile))
-    DNV_tab = tab[which(tab$POS %in% DNV_cases$POS),]
-    write.csv(DNV_tab, file = paste0(base_path, "/output/pathogenicity_scoring/", analysis_type,
-                                     "/DNV_only/", infile))
-  }
-  
-}
-
 
